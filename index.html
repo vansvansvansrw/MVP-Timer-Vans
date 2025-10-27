@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ragnarok MVP Timer</title>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-            padding: 20px; 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 20px;
             padding-top: 50px; /* Add padding top for sound toggle */
-            background: #212121; 
+            background: #212121;
             color: #e0e0e0;
             max-width: 1100px;
             margin: 0 auto;
@@ -24,21 +24,55 @@
             right: 20px;
             font-size: 1.8em;
             cursor: pointer;
-            user-select: none; 
+            user-select: none; /* Prevent text selection */
         }
+
+        /* --- CSS for Search Box --- */
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+            max-width: 600px; /* Limit width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #search-input {
+            width: 100%;
+            padding: 10px 35px 10px 15px; /* Make space for clear button */
+            font-size: 1.1em;
+            box-sizing: border-box;
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            border-radius: 8px;
+            color-scheme: dark;
+        }
+        #clear-search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 0 5px;
+            display: none; /* Initially hidden */
+        }
+        /* --- End Search Box CSS --- */
 
         .mvp-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
-        .mvp { 
+        .mvp {
             background: #333333;
-            border: 1px solid #555; 
-            padding: 15px; 
-            border-radius: 8px; 
+            border: 1px solid #555;
+            padding: 15px;
+            border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
+            display: flex; /* Keep flex for filtering logic */
             flex-direction: column;
             justify-content: space-between;
         }
@@ -48,9 +82,9 @@
             align-items: center;
             margin-bottom: 5px;
         }
-        .mvp-name { 
+        .mvp-name {
             display: block;
-            font-weight: bold; 
+            font-weight: bold;
             font-size: 0.9em;
             color: #ffffff;
             width: 100%;
@@ -67,28 +101,28 @@
         }
 
         .mvp-map {
-            display: block; 
+            display: block;
             font-size: 0.9em;
             color: #aaa;
             font-style: italic;
             text-align: center;
-            margin-bottom: 8px; 
-            margin-top: -5px; 
+            margin-bottom: 8px;
+            margin-top: -5px;
         }
 
         .mvp-sprite {
-            width: 72px; 
+            width: 72px;
             height: 72px;
-            margin: 5px auto; 
-            object-fit: contain; 
+            margin: 5px auto;
+            object-fit: contain;
             border-radius: 4px;
             display: block;
         }
-        
+
         /* --- CSS สำหรับ Timer 3-Phase --- */
-        .timer { 
-            font-size: 2em; 
-            font-weight: 700; 
+        .timer {
+            font-size: 2em;
+            font-weight: 700;
             text-align: center;
             margin: 10px 0;
             font-family: "Courier New", Courier, monospace;
@@ -104,42 +138,68 @@
         /* --- จบ CSS Timer --- */
 
         .mvp-death-time {
-            display: block; 
+            display: block;
             font-size: 0.9em;
             color: #aaa;
             font-style: italic;
             text-align: center;
             margin-top: 5px;
-            height: 1.2em; 
+            height: 1.2em; /* จองพื้นที่ไว้ กันหน้าจอกระโดด */
         }
 
-
+        /* --- Adjust Button Group CSS --- */
         .button-group {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex; /* Use flexbox for rows */
+            flex-direction: column; /* Stack rows vertically */
             gap: 8px;
             margin-top: 10px;
         }
+        .button-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns for Dead/Clear */
+            gap: 8px;
+        }
+        /* --- End Button Change CSS --- */
 
-        button { 
-            font-size: 1em; 
-            padding: 10px 15px; 
-            cursor: pointer; 
+
+        button {
+            font-size: 1em;
+            padding: 10px 15px;
+            cursor: pointer;
             color: white;
             border: none;
             border-radius: 5px;
             transition: background-color 0.2s;
+            grid-column: span 2; /* Default span, overridden below */
         }
-        
-        .dead-btn { background-color: #ef4444; }
+
+        /* ปุ่ม "ตาย" (แดง) */
+        .dead-btn {
+            background-color: #ef4444;
+            grid-column: 1 / 2; /* Place in first column */
+        }
         .dead-btn:hover { background-color: #dc2626; }
-        .edit-btn { background-color: #3b82f6; }
+
+        /* --- NEW CSS for Clear Button --- */
+        .clear-btn {
+            background-color: #6b7280; /* Grey color */
+            grid-column: 2 / 3; /* Place in second column */
+        }
+        .clear-btn:hover { background-color: #4b5563; }
+        /* --- End Clear Button CSS --- */
+
+
+        /* ปุ่ม "แก้ไข" (น้ำเงิน) */
+        .edit-btn {
+            background-color: #3b82f6;
+            grid-column: 1 / 3; /* Make Edit button span both columns */
+        }
         .edit-btn:hover { background-color: #2563eb; }
-        
+
         /* --- CSS สำหรับ Modal แก้ไข --- */
         .modal {
-            display: none; 
-            position: fixed; 
+            display: none;
+            position: fixed;
             z-index: 1000;
             left: 0;
             top: 0;
@@ -191,7 +251,7 @@
         #save-edit-btn:hover { background-color: #4cae4c; }
         /* --- จบ CSS Modal --- */
 
-        
+
         /* --- CSS สำหรับ Filter --- */
         .filter-section {
             background-color: #333333;
@@ -207,7 +267,7 @@
             border-bottom: 1px solid #555;
             padding-bottom: 10px;
         }
-        
+
         .filter-controls {
             display: flex;
             gap: 10px;
@@ -220,7 +280,7 @@
             border: 1px solid #777;
         }
         .filter-btn:hover { background-color: #666; }
-        
+
         #filter-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -239,45 +299,57 @@
 
     <h1>Ragnarok MVP Timer (Sync)</h1>
 
+    <!-- --- Add Search Box HTML --- -->
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="ค้นหาบอส...">
+        <button id="clear-search-btn" title="ล้างการค้นหา">&times;</button>
+    </div>
+
     <div class="mvp-container" id="mvp-list-container">
 
         <!-- Amon Ra -->
         <div class="mvp" id="card-amon_ra">
-            <div>
+             <!-- BUG FIX: Restore outer div -->
+             <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Amon Ra</span>
                     <span class="mvp-duration">(60 min. / ID: 1511)</span>
                 </div>
                 <small class="mvp-map">moc_pryd06</small>
-                <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1511.gif" alt="Amon Ra Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1511.gif" alt="Amon Ra Sprite">
                 <div id="timer-amon_ra" class="timer timer-na">...</div>
                 <small id="death-time-amon_ra" class="mvp-death-time">&nbsp;</small>
             </div>
             <div>
+                 <!-- Apply new button structure -->
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('amon_ra', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('amon_ra', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('amon_ra')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('amon_ra', 3600)">แก้ไข</button>
                 </div>
             </div>
         </div>
 
         <!-- Assassin Cross Eremes -->
-        <div class="mvp" id="card-eremes">
+         <div class="mvp" id="card-eremes">
             <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Assassin Cross Eremes</span>
                     <span class="mvp-duration">(100 min. / ID: 1647)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1647.gif" alt="Assassin Cross Eremes Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1647.gif" alt="Assassin Cross Eremes Sprite">
                 <div id="timer-eremes" class="timer timer-na">...</div>
                 <small id="death-time-eremes" class="mvp-death-time">&nbsp;</small>
             </div>
             <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('eremes', 6000)">กดตอนตาย (100m)</button>
+                    <div class="button-row">
+                         <button class="dead-btn" onclick="setTimer('eremes', 6000)">กดตาย</button>
+                         <button class="clear-btn" onclick="clearTimer('eremes')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('eremes', 6000)">แก้ไข</button>
                 </div>
             </div>
@@ -285,1126 +357,1220 @@
 
         <!-- Atroce (ra_fild02) -->
         <div class="mvp" id="card-atroce_ra_fild02">
-            <div>
+             <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Atroce (ra_fild02)</span>
                     <span class="mvp-duration">(240 min. / ID: 1785)</span>
                 </div>
-                <small class="mvp-map">Od Canyon</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
-                <div id="timer-atroce_ra_fild02" class="timer timer-na">...</div>
-                <small id="death-time-atroce_ra_fild02" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+                 <small class="mvp-map">Od Canyon</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <div id="timer-atroce_ra_fild02" class="timer timer-na">...</div>
+                 <small id="death-time-atroce_ra_fild02" class="mvp-death-time">&nbsp;</small>
+             </div>
+             <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('atroce_ra_fild02', 14400)">กดตอนตาย (240m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('atroce_ra_fild02', 14400)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('atroce_ra_fild02')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('atroce_ra_fild02', 14400)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Atroce (ra_fild03) -->
-        <div class="mvp" id="card-atroce_ra_fild03">
-            <div>
-                <div class="mvp-header">
+             </div>
+         </div>
+         <!-- Atroce (ra_fild03) -->
+         <div class="mvp" id="card-atroce_ra_fild03">
+              <div>
+                 <div class="mvp-header">
                     <span class="mvp-name">Atroce (ra_fild03)</span>
                     <span class="mvp-duration">(180 min. / ID: 1785)</span>
                 </div>
-                <small class="mvp-map">The Plain of Ida</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
-                <div id="timer-atroce_ra_fild03" class="timer timer-na">...</div>
-                <small id="death-time-atroce_ra_fild03" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+                 <small class="mvp-map">The Plain of Ida</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <div id="timer-atroce_ra_fild03" class="timer timer-na">...</div>
+                 <small id="death-time-atroce_ra_fild03" class="mvp-death-time">&nbsp;</small>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('atroce_ra_fild03', 10800)">กดตอนตาย (180m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('atroce_ra_fild03', 10800)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('atroce_ra_fild03')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('atroce_ra_fild03', 10800)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Atroce (ra_fild04) -->
-        <div class="mvp" id="card-atroce_ra_fild04">
-            <div>
-                <div class="mvp-header">
+              </div>
+          </div>
+          <!-- Atroce (ra_fild04) -->
+          <div class="mvp" id="card-atroce_ra_fild04">
+              <div>
+                 <div class="mvp-header">
                     <span class="mvp-name">Atroce (ra_fild04)</span>
                     <span class="mvp-duration">(300 min. / ID: 1785)</span>
                 </div>
-                <small class="mvp-map">Audhumbla Grassland</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
-                <div id="timer-atroce_ra_fild04" class="timer timer-na">...</div>
-                <small id="death-time-atroce_ra_fild04" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+                 <small class="mvp-map">Audhumbla Grassland</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <div id="timer-atroce_ra_fild04" class="timer timer-na">...</div>
+                 <small id="death-time-atroce_ra_fild04" class="mvp-death-time">&nbsp;</small>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('atroce_ra_fild04', 18000)">กดตอนตาย (300m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('atroce_ra_fild04', 18000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('atroce_ra_fild04')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('atroce_ra_fild04', 18000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Atroce (ve_fild01) -->
-        <div class="mvp" id="card-atroce_ve_fild01">
-            <div>
-                <div class="mvp-header">
+              </div>
+          </div>
+          <!-- Atroce (ve_fild01) -->
+          <div class="mvp" id="card-atroce_ve_fild01">
+              <div>
+                 <div class="mvp-header">
                     <span class="mvp-name">Atroce (ve_fild01)</span>
                     <span class="mvp-duration">(180 min. / ID: 1785)</span>
                 </div>
-                <small class="mvp-map">Veins Field</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
-                <div id="timer-atroce_ve_fild01" class="timer timer-na">...</div>
-                <small id="death-time-atroce_ve_fild01" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+                 <small class="mvp-map">Veins Field</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <div id="timer-atroce_ve_fild01" class="timer timer-na">...</div>
+                 <small id="death-time-atroce_ve_fild01" class="mvp-death-time">&nbsp;</small>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('atroce_ve_fild01', 10800)">กดตอนตาย (180m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('atroce_ve_fild01', 10800)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('atroce_ve_fild01')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('atroce_ve_fild01', 10800)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Atroce (ve_fild02) -->
-        <div class="mvp" id="card-atroce_ve_fild02">
-            <div>
-                <div class="mvp-header">
+              </div>
+          </div>
+          <!-- Atroce (ve_fild02) -->
+          <div class="mvp" id="card-atroce_ve_fild02">
+              <div>
+                 <div class="mvp-header">
                     <span class="mvp-name">Atroce (ve_fild02)</span>
                     <span class="mvp-duration">(360 min. / ID: 1785)</span>
                 </div>
-                <small class="mvp-map">Veins Field</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
-                <div id="timer-atroce_ve_fild02" class="timer timer-na">...</div>
-                <small id="death-time-atroce_ve_fild02" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+                 <small class="mvp-map">Veins Field</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <div id="timer-atroce_ve_fild02" class="timer timer-na">...</div>
+                 <small id="death-time-atroce_ve_fild02" class="mvp-death-time">&nbsp;</small>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('atroce_ve_fild02', 21600)">กดตอนตาย (360m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('atroce_ve_fild02', 21600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('atroce_ve_fild02')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('atroce_ve_fild02', 21600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Bacsojin -->
-        <div class="mvp" id="card-bacsojin">
-            <div>
+
+          <!-- Bacsojin -->
+          <div class="mvp" id="card-bacsojin">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Bacsojin</span>
                     <span class="mvp-duration">(117 min. / ID: 1630)</span>
                 </div>
                 <small class="mvp-map">lou_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1630.gif" alt="Bacsojin Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1630.gif" alt="Bacsojin Sprite">
                 <div id="timer-bacsojin" class="timer timer-na">...</div>
                 <small id="death-time-bacsojin" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('bacsojin', 7020)">กดตอนตาย (117m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('bacsojin', 7020)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('bacsojin')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('bacsojin', 7020)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Baphomet -->
-        <div class="mvp" id="card-baphomet">
-            <div>
+          <!-- Baphomet -->
+          <div class="mvp" id="card-baphomet">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Baphomet</span>
                     <span class="mvp-duration">(120 min. / ID: 1039)</span>
                 </div>
                 <small class="mvp-map">prt_maze03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1039.gif" alt="Baphomet Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1039.gif" alt="Baphomet Sprite">
                 <div id="timer-baphomet" class="timer timer-na">...</div>
                 <small id="death-time-baphomet" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('baphomet', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('baphomet', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('baphomet')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('baphomet', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Boitata -->
-        <div class="mvp" id="card-boitata">
-            <div>
+          <!-- Boitata -->
+          <div class="mvp" id="card-boitata">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Boitata</span>
                     <span class="mvp-duration">(120 min. / ID: 2068)</span>
                 </div>
                 <small class="mvp-map">bra_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/2068.gif" alt="Boitata Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2068.gif" alt="Boitata Sprite">
                 <div id="timer-boitata" class="timer timer-na">...</div>
                 <small id="death-time-boitata" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('boitata', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('boitata', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('boitata')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('boitata', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Dark Lord -->
-        <div class="mvp" id="card-dark_lord">
-            <div>
+          <!-- Dark Lord -->
+          <div class="mvp" id="card-dark_lord">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Dark Lord</span>
                     <span class="mvp-duration">(60 min. / ID: 1272)</span>
                 </div>
                 <small class="mvp-map">gl_chyard</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1272.gif" alt="Dark Lord Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1272.gif" alt="Dark Lord Sprite">
                 <div id="timer-dark_lord" class="timer timer-na">...</div>
                 <small id="death-time-dark_lord" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('dark_lord', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('dark_lord', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('dark_lord')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('dark_lord', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Detale -->
-        <div class="mvp" id="card-detale">
-            <div>
+          <!-- Detale -->
+          <div class="mvp" id="card-detale">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Detale</span>
                     <span class="mvp-duration">(180 min. / ID: 1719)</span>
                 </div>
                 <small class="mvp-map">abyss_03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1719.gif" alt="Detale Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1719.gif" alt="Detale Sprite">
                 <div id="timer-detale" class="timer timer-na">...</div>
                 <small id="death-time-detale" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('detale', 10800)">กดตอนตาย (180m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('detale', 10800)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('detale')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('detale', 10800)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Doppelganger -->
-        <div class="mvp" id="card-doppel">
-            <div>
+          <!-- Doppelganger -->
+          <div class="mvp" id="card-doppel">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Doppelganger</span>
                     <span class="mvp-duration">(120 min. / ID: 1046)</span>
                 </div>
                 <small class="mvp-map">gef_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1046.gif" alt="Doppelganger Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1046.gif" alt="Doppelganger Sprite">
                 <div id="timer-doppel" class="timer timer-na">...</div>
                 <small id="death-time-doppel" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('doppel', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('doppel', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('doppel')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('doppel', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Dracula -->
-        <div class="mvp" id="card-dracula">
-            <div>
+          <!-- Dracula -->
+          <div class="mvp" id="card-dracula">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Dracula</span>
                     <span class="mvp-duration">(60 min. / ID: 1389)</span>
                 </div>
                 <small class="mvp-map">gef_dun01</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1389.gif" alt="Dracula Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1389.gif" alt="Dracula Sprite">
                 <div id="timer-dracula" class="timer timer-na">...</div>
                 <small id="death-time-dracula" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('dracula', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('dracula', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('dracula')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('dracula', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Drake -->
-        <div class="mvp" id="card-drake">
-            <div>
+          <!-- Drake -->
+          <div class="mvp" id="card-drake">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Drake</span>
                     <span class="mvp-duration">(120 min. / ID: 1112)</span>
                 </div>
                 <small class="mvp-map">treasure02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1112.gif" alt="Drake Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1112.gif" alt="Drake Sprite">
                 <div id="timer-drake" class="timer timer-na">...</div>
                 <small id="death-time-drake" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('drake', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('drake', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('drake')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('drake', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Eddga -->
-        <div class="mvp" id="card-eddga">
-            <div>
+          <!-- Eddga -->
+          <div class="mvp" id="card-eddga">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Eddga</span>
                     <span class="mvp-duration">(120 min. / ID: 1115)</span>
                 </div>
                 <small class="mvp-map">pay_fild11</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1115.gif" alt="Eddga Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1115.gif" alt="Eddga Sprite">
                 <div id="timer-eddga" class="timer timer-na">...</div>
                 <small id="death-time-eddga" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('eddga', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('eddga', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('eddga')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('eddga', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Evil Snake Lord -->
-        <div class="mvp" id="card-evil_snake_lord">
-            <div>
+          <!-- Evil Snake Lord -->
+          <div class="mvp" id="card-evil_snake_lord">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Evil Snake Lord</span>
                     <span class="mvp-duration">(94 min. / ID: 1418)</span>
                 </div>
                 <small class="mvp-map">gon_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1418.gif" alt="Evil Snake Lord Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1418.gif" alt="Evil Snake Lord Sprite">
                 <div id="timer-evil_snake_lord" class="timer timer-na">...</div>
                 <small id="death-time-evil_snake_lord" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('evil_snake_lord', 5640)">กดตอนตาย (94m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('evil_snake_lord', 5640)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('evil_snake_lord')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('evil_snake_lord', 5640)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Fallen Bishop -->
-        <div class="mvp" id="card-bishop">
-            <div>
+          <!-- Fallen Bishop -->
+          <div class="mvp" id="card-bishop">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Fallen Bishop</span>
                     <span class="mvp-duration">(120 min. / ID: 1871)</span>
                 </div>
                 <small class="mvp-map">abbey02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1871.gif" alt="Fallen Bishop Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1871.gif" alt="Fallen Bishop Sprite">
                 <div id="timer-bishop" class="timer timer-na">...</div>
                 <small id="death-time-bishop" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('bishop', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('bishop', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('bishop')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('bishop', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Garm / Hatii -->
-        <div class="mvp" id="card-hatii">
-            <div>
+          <!-- Garm / Hatii -->
+          <div class="mvp" id="card-hatii">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Garm / Hatii</span>
                     <span class="mvp-duration">(120 min. / ID: 1252)</span>
                 </div>
                 <small class="mvp-map">xmas_fild01</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1252.gif" alt="Garm / Hatii Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1252.gif" alt="Garm / Hatii Sprite">
                 <div id="timer-hatii" class="timer timer-na">...</div>
                 <small id="death-time-hatii" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('hatii', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('hatii', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('hatii')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('hatii', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Gloom Under Night -->
-        <div class="mvp" id="card-gloom">
-            <div>
+          <!-- Gloom Under Night -->
+          <div class="mvp" id="card-gloom">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Gloom Under Night</span>
                     <span class="mvp-duration">(300 min. / ID: 1768)</span>
                 </div>
                 <small class="mvp-map">ra_san05</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1768.gif" alt="Gloom Under Night Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1768.gif" alt="Gloom Under Night Sprite">
                 <div id="timer-gloom" class="timer timer-na">...</div>
                 <small id="death-time-gloom" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('gloom', 18000)">กดตอนตาย (300m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('gloom', 18000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('gloom')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('gloom', 18000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Gold Queen Scaraba -->
-        <div class="mvp" id="card-gold_queen">
-            <div>
+          <!-- Gold Queen Scaraba -->
+          <div class="mvp" id="card-gold_queen">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Gold Queen Scaraba</span>
                     <span class="mvp-duration">(120 min. / ID: 2165)</span>
                 </div>
                 <small class="mvp-map">dic_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/2165.gif" alt="Gold Queen Scaraba Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2165.gif" alt="Gold Queen Scaraba Sprite">
                 <div id="timer-gold_queen" class="timer timer-na">...</div>
                 <small id="death-time-gold_queen" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('gold_queen', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('gold_queen', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('gold_queen')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('gold_queen', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Golden Thief Bug -->
-        <div class="mvp" id="card-gtb">
-            <div>
+          <!-- Golden Thief Bug -->
+          <div class="mvp" id="card-gtb">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Golden Thief Bug</span>
                     <span class="mvp-duration">(60 min. / ID: 1086)</span>
                 </div>
                 <small class="mvp-map">prt_sewb4</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1086.gif" alt="Golden Thief Bug Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1086.gif" alt="Golden Thief Bug Sprite">
                 <div id="timer-gtb" class="timer timer-na">...</div>
                 <small id="death-time-gtb" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('gtb', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('gtb', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('gtb')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('gtb', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Gopinich -->
-        <div class="mvp" id="card-gopinich">
-            <div>
+          <!-- Gopinich -->
+          <div class="mvp" id="card-gopinich">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Gopinich</span>
                     <span class="mvp-duration">(120 min. / ID: 1885)</span>
                 </div>
                 <small class="mvp-map">mosk_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1885.gif" alt="Gopinich Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1885.gif" alt="Gopinich Sprite">
                 <div id="timer-gopinich" class="timer timer-na">...</div>
                 <small id="death-time-gopinich" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('gopinich', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('gopinich', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('gopinich')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('gopinich', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- High Priest Magaleta -->
-        <div class="mvp" id="card-magaleta">
-            <div>
+          <!-- High Priest Magaleta -->
+          <div class="mvp" id="card-magaleta">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">High Priest Magaleta</span>
                     <span class="mvp-duration">(100 min. / ID: 1649)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1649.gif" alt="High Priest Magaleta Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1649.gif" alt="High Priest Magaleta Sprite">
                 <div id="timer-magaleta" class="timer timer-na">...</div>
                 <small id="death-time-magaleta" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('magaleta', 6000)">กดตอนตาย (100m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('magaleta', 6000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('magaleta')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('magaleta', 6000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- High Wizard Katrinn -->
-        <div class="mvp" id="card-katrinn">
-            <div>
+          <!-- High Wizard Katrinn -->
+          <div class="mvp" id="card-katrinn">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">High Wizard Katrinn</span>
                     <span class="mvp-duration">(100 min. / ID: 1651)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1651.gif" alt="High Wizard Katrinn Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1651.gif" alt="High Wizard Katrinn Sprite">
                 <div id="timer-katrinn" class="timer timer-na">...</div>
                 <small id="death-time-katrinn" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('katrinn', 6000)">กดตอนตาย (100m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('katrinn', 6000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('katrinn')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('katrinn', 6000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Ifrit -->
-        <div class="mvp" id="card-ifrit">
-            <div>
+          <!-- Ifrit -->
+          <div class="mvp" id="card-ifrit">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Ifrit</span>
                     <span class="mvp-duration">(660 min. / ID: 1832)</span>
                 </div>
                 <small class="mvp-map">thor_v03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1832.gif" alt="Ifrit Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1832.gif" alt="Ifrit Sprite">
                 <div id="timer-ifrit" class="timer timer-na">...</div>
                 <small id="death-time-ifrit" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('ifrit', 39600)">กดตอนตาย (660m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('ifrit', 39600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('ifrit')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('ifrit', 39600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Incantation Samurai -->
-        <div class="mvp" id="card-samurai">
-            <div>
+          <!-- Incantation Samurai -->
+          <div class="mvp" id="card-samurai">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Incantation Samurai</span>
                     <span class="mvp-duration">(91 min. / ID: 1492)</span>
                 </div>
                 <small class="mvp-map">ama_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1492.gif" alt="Incantation Samurai Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1492.gif" alt="Incantation Samurai Sprite">
                 <div id="timer-samurai" class="timer timer-na">...</div>
                 <small id="death-time-samurai" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('samurai', 5460)">กดตอนตาย (91m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('samurai', 5460)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('samurai')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('samurai', 5460)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Kiel D-01 -->
-        <div class="mvp" id="card-kiel">
-            <div>
+          <!-- Kiel D-01 -->
+          <div class="mvp" id="card-kiel">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Kiel D-01</span>
                     <span class="mvp-duration">(120 min. / ID: 1734)</span>
                 </div>
                 <small class="mvp-map">kh_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1734.gif" alt="Kiel D-01 Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1734.gif" alt="Kiel D-01 Sprite">
                 <div id="timer-kiel" class="timer timer-na">...</div>
                 <small id="death-time-kiel" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('kiel', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('kiel', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('kiel')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('kiel', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Stormy Knight -->
-        <div class="mvp" id="card-stormy">
-            <div>
+          <!-- Stormy Knight -->
+          <div class="mvp" id="card-stormy">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Stormy Knight</span>
                     <span class="mvp-duration">(60 min. / ID: 1251)</span>
                 </div>
                 <small class="mvp-map">xmas_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1251.gif" alt="Stormy Knight Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1251.gif" alt="Stormy Knight Sprite">
                 <div id="timer-stormy" class="timer timer-na">...</div>
                 <small id="death-time-stormy" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('stormy', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('stormy', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('stormy')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('stormy', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Ktullanux -->
-        <div class="mvp" id="card-ktullanux">
-            <div>
-                <div class="mvp-header">
-                    <span class="mvp-name">Ktullanux</span>
-                    <span class="mvp-duration">(Quest / ID: 1779)</span>
-                </div>
-                <small class="mvp-map">ice_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1779.gif" alt="Ktullanux Sprite">
-                <div id="timer-ktullanux" class="timer timer-na">Quest / Summon</div>
-                <small id="death-time-ktullanux" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
-                <!-- No buttons for quest boss -->
-            </div>
-        </div>
+         <!-- Ktullanux - No buttons -->
+         <div class="mvp" id="card-ktullanux">
+             <div>
+                 <div class="mvp-header">
+                     <span class="mvp-name">Ktullanux</span>
+                     <span class="mvp-duration">(Quest / ID: 1779)</span>
+                 </div>
+                 <small class="mvp-map">ice_dun03</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1779.gif" alt="Ktullanux Sprite">
+                 <div id="timer-ktullanux" class="timer timer-na">Quest / Summon</div>
+                 <small id="death-time-ktullanux" class="mvp-death-time">&nbsp;</small>
+             </div>
+             <div>
+                 <!-- No buttons needed -->
+             </div>
+         </div>
 
-        <!-- Lady Tanee -->
-        <div class="mvp" id="card-lady_tanee">
-            <div>
+          <!-- Lady Tanee -->
+          <div class="mvp" id="card-lady_tanee">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Lady Tanee</span>
                     <span class="mvp-duration">(420 min. / ID: 1688)</span>
                 </div>
                 <small class="mvp-map">ayo_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1688.gif" alt="Lady Tanee Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1688.gif" alt="Lady Tanee Sprite">
                 <div id="timer-lady_tanee" class="timer timer-na">...</div>
                 <small id="death-time-lady_tanee" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('lady_tanee', 25200)">กดตอนตาย (420m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('lady_tanee', 25200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('lady_tanee')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('lady_tanee', 25200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Leak -->
-        <div class="mvp" id="card-leak">
-            <div>
+          <!-- Leak -->
+          <div class="mvp" id="card-leak">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Leak</span>
                     <span class="mvp-duration">(120 min. / ID: 2156)</span>
                 </div>
                 <small class="mvp-map">dew_dun01</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/2156.gif" alt="Leak Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2156.gif" alt="Leak Sprite">
                 <div id="timer-leak" class="timer timer-na">...</div>
                 <small id="death-time-leak" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('leak', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('leak', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('leak')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('leak', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Lord Knight Seyren -->
-        <div class="mvp" id="card-seyren">
-            <div>
+          <!-- Lord Knight Seyren -->
+          <div class="mvp" id="card-seyren">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Lord Knight Seyren</span>
                     <span class="mvp-duration">(100 min. / ID: 1646)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1646.gif" alt="Lord Knight Seyren Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1646.gif" alt="Lord Knight Seyren Sprite">
                 <div id="timer-seyren" class="timer timer-na">...</div>
                 <small id="death-time-seyren" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('seyren', 6000)">กดตอนตาย (100m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('seyren', 6000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('seyren')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('seyren', 6000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Lord of Death -->
-        <div class="mvp" id="card-lord_of_death">
-            <div>
+          <!-- Lord of Death -->
+          <div class="mvp" id="card-lord_of_death">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Lord of Death</span>
                     <span class="mvp-duration">(133 min. / ID: 1373)</span>
                 </div>
                 <small class="mvp-map">niflheim</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1373.gif" alt="Lord of Death Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1373.gif" alt="Lord of Death Sprite">
                 <div id="timer-lord_of_death" class="timer timer-na">...</div>
                 <small id="death-time-lord_of_death" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('lord_of_death', 7980)">กดตอนตาย (133m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('lord_of_death', 7980)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('lord_of_death')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('lord_of_death', 7980)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Maya -->
-        <div class="mvp" id="card-maya">
-            <div>
+          <!-- Maya -->
+          <div class="mvp" id="card-maya">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Maya</span>
                     <span class="mvp-duration">(120 min. / ID: 1147)</span>
                 </div>
                 <small class="mvp-map">anthell02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1147.gif" alt="Maya Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1147.gif" alt="Maya Sprite">
                 <div id="timer-maya" class="timer timer-na">...</div>
                 <small id="death-time-maya" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('maya', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('maya', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('maya')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('maya', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Mistress -->
-        <div class="mvp" id="card-mistress">
-            <div>
+          <!-- Mistress -->
+          <div class="mvp" id="card-mistress">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Mistress</span>
                     <span class="mvp-duration">(120 min. / ID: 1059)</span>
                 </div>
                 <small class="mvp-map">mjolnir_04</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1059.gif" alt="Mistress Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1059.gif" alt="Mistress Sprite">
                 <div id="timer-mistress" class="timer timer-na">...</div>
                 <small id="death-time-mistress" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('mistress', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('mistress', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('mistress')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('mistress', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Moonlight Flower -->
-        <div class="mvp" id="card-moonlight">
-            <div>
+          <!-- Moonlight Flower -->
+          <div class="mvp" id="card-moonlight">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Moonlight Flower</span>
                     <span class="mvp-duration">(60 min. / ID: 1150)</span>
                 </div>
                 <small class="mvp-map">pay_dun04</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1150.gif" alt="Moonlight Flower Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1150.gif" alt="Moonlight Flower Sprite">
                 <div id="timer-moonlight" class="timer timer-na">...</div>
                 <small id="death-time-moonlight" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('moonlight', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('moonlight', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('moonlight')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('moonlight', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Nidhoggr's Shadow -->
-        <div class="mvp" id="card-nidhoggr">
-            <div>
-                <div class="mvp-header">
-                    <span class="mvp-name">Nidhoggr's Shadow</span>
-                    <span class="mvp-duration">(Instance / ID: 2022)</span>
-                </div>
-                <small class="mvp-map">2@nyd</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/2022.gif" alt="Nidhoggr's Shadow Sprite">
-                <div id="timer-nidhoggr" class="timer timer-na">Instance</div>
-                <small id="death-time-nidhoggr" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
-                <!-- No buttons for instance boss -->
-            </div>
-        </div>
+         <!-- Nidhoggr's Shadow - No buttons -->
+         <div class="mvp" id="card-nidhoggr">
+             <div>
+                 <div class="mvp-header">
+                     <span class="mvp-name">Nidhoggr's Shadow</span>
+                     <span class="mvp-duration">(Instance / ID: 2022)</span>
+                 </div>
+                 <small class="mvp-map">2@nyd</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2022.gif" alt="Nidhoggr's Shadow Sprite">
+                 <div id="timer-nidhoggr" class="timer timer-na">Instance</div>
+                 <small id="death-time-nidhoggr" class="mvp-death-time">&nbsp;</small>
+             </div>
+             <div>
+                 <!-- No buttons needed -->
+             </div>
+         </div>
 
-        <!-- Orc Hero (gef_fild02) -->
-        <div class="mvp" id="card-orc_hero_gef_fild02">
-            <div>
+          <!-- Orc Hero (gef_fild02) -->
+          <div class="mvp" id="card-orc_hero_gef_fild02">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Orc Hero (gef_fild02)</span>
                     <span class="mvp-duration">(1440 min. / ID: 1087)</span>
                 </div>
                 <small class="mvp-map">Geffen Field</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1087.gif" alt="Orc Hero Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1087.gif" alt="Orc Hero Sprite">
                 <div id="timer-orc_hero_gef_fild02" class="timer timer-na">...</div>
                 <small id="death-time-orc_hero_gef_fild02" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('orc_hero_gef_fild02', 86400)">กดตอนตาย (1440m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('orc_hero_gef_fild02', 86400)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('orc_hero_gef_fild02')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('orc_hero_gef_fild02', 86400)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Orc Hero (gef_fild14) -->
-        <div class="mvp" id="card-orc_hero_gef_fild14">
-            <div>
+          <!-- Orc Hero (gef_fild14) -->
+          <div class="mvp" id="card-orc_hero_gef_fild14">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Orc Hero (gef_fild14)</span>
                     <span class="mvp-duration">(60 min. / ID: 1087)</span>
                 </div>
                 <small class="mvp-map">West Orc Village</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1087.gif" alt="Orc Hero Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1087.gif" alt="Orc Hero Sprite">
                 <div id="timer-orc_hero_gef_fild14" class="timer timer-na">...</div>
                 <small id="death-time-orc_hero_gef_fild14" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('orc_hero_gef_fild14', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('orc_hero_gef_fild14', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('orc_hero_gef_fild14')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('orc_hero_gef_fild14', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Orc Lord -->
-        <div class="mvp" id="card-orc_lord">
-            <div>
+          <!-- Orc Lord -->
+          <div class="mvp" id="card-orc_lord">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Orc Lord</span>
                     <span class="mvp-duration">(120 min. / ID: 1190)</span>
                 </div>
                 <small class="mvp-map">gef_fild10</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1190.gif" alt="Orc Lord Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1190.gif" alt="Orc Lord Sprite">
                 <div id="timer-orc_lord" class="timer timer-na">...</div>
                 <small id="death-time-orc_lord" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('orc_lord', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('orc_lord', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('orc_lord')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('orc_lord', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Osiris -->
-        <div class="mvp" id="card-osiris">
-            <div>
+          <!-- Osiris -->
+          <div class="mvp" id="card-osiris">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Osiris</span>
                     <span class="mvp-duration">(60 min. / ID: 1038)</span>
                 </div>
                 <small class="mvp-map">moc_pryd04</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1038.gif" alt="Osiris Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1038.gif" alt="Osiris Sprite">
                 <div id="timer-osiris" class="timer timer-na">...</div>
                 <small id="death-time-osiris" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('osiris', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('osiris', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('osiris')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('osiris', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Pharaoh -->
-        <div class="mvp" id="card-pharaoh">
-            <div>
+          <!-- Pharaoh -->
+          <div class="mvp" id="card-pharaoh">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Pharaoh</span>
                     <span class="mvp-duration">(60 min. / ID: 1157)</span>
                 </div>
                 <small class="mvp-map">in_sphinx5</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1157.gif" alt="Pharaoh Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1157.gif" alt="Pharaoh Sprite">
                 <div id="timer-pharaoh" class="timer timer-na">...</div>
                 <small id="death-time-pharaoh" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('pharaoh', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('pharaoh', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('pharaoh')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('pharaoh', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Phreeoni -->
-        <div class="mvp" id="card-phreeoni">
-            <div>
+          <!-- Phreeoni -->
+          <div class="mvp" id="card-phreeoni">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Phreeoni</span>
                     <span class="mvp-duration">(120 min. / ID: 1159)</span>
                 </div>
                 <small class="mvp-map">moc_fild17</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1159.gif" alt="Phreeoni Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1159.gif" alt="Phreeoni Sprite">
                 <div id="timer-phreeoni" class="timer timer-na">...</div>
                 <small id="death-time-phreeoni" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('phreeoni', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('phreeoni', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('phreeoni')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('phreeoni', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Queen Scaraba -->
-        <div class="mvp" id="card-queen_scaraba">
-            <div>
+          <!-- Queen Scaraba -->
+          <div class="mvp" id="card-queen_scaraba">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Queen Scaraba</span>
                     <span class="mvp-duration">(120 min. / ID: 2087)</span>
                 </div>
                 <small class="mvp-map">dic_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/2087.gif" alt="Queen Scaraba Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2087.gif" alt="Queen Scaraba Sprite">
                 <div id="timer-queen_scaraba" class="timer timer-na">...</div>
                 <small id="death-time-queen_scaraba" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('queen_scaraba', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('queen_scaraba', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('queen_scaraba')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('queen_scaraba', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- RSX 0806 -->
-        <div class="mvp" id="card-rsx">
-            <div>
+          <!-- RSX 0806 -->
+          <div class="mvp" id="card-rsx">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">RSX 0806</span>
                     <span class="mvp-duration">(125 min. / ID: 1623)</span>
                 </div>
                 <small class="mvp-map">ein_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1623.gif" alt="RSX 0806 Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1623.gif" alt="RSX 0806 Sprite">
                 <div id="timer-rsx" class="timer timer-na">...</div>
                 <small id="death-time-rsx" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('rsx', 7500)">กดตอนตาย (125m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('rsx', 7500)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('rsx')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('rsx', 7500)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Sniper Shecil -->
-        <div class="mvp" id="card-shecil">
-            <div>
+          <!-- Sniper Shecil -->
+          <div class="mvp" id="card-shecil">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Sniper Shecil</span>
                     <span class="mvp-duration">(100 min. / ID: 1650)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1650.gif" alt="Sniper Shecil Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1650.gif" alt="Sniper Shecil Sprite">
                 <div id="timer-shecil" class="timer timer-na">...</div>
                 <small id="death-time-shecil" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('shecil', 6000)">กดตอนตาย (100m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('shecil', 6000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('shecil')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('shecil', 6000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Tao Gunka -->
-        <div class="mvp" id="card-tao_gunka">
-            <div>
+          <!-- Tao Gunka -->
+          <div class="mvp" id="card-tao_gunka">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Tao Gunka</span>
                     <span class="mvp-duration">(300 min. / ID: 1583)</span>
                 </div>
                 <small class="mvp-map">beach_dun</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1583.gif" alt="Tao Gunka Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1583.gif" alt="Tao Gunka Sprite">
                 <div id="timer-tao_gunka" class="timer timer-na">...</div>
                 <small id="death-time-tao_gunka" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('tao_gunka', 18000)">กดตอนตาย (300m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('tao_gunka', 18000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('tao_gunka')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('tao_gunka', 18000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Thanatos -->
-        <div class="mvp" id="card-thanatos">
-            <div>
-                <div class="mvp-header">
-                    <span class="mvp-name">Memory of Thanatos</span>
-                    <span class="mvp-duration">(Quest / ID: 1708)</span>
-                </div>
-                <small class="mvp-map">thana_boss</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1708.gif" alt="Thanatos Sprite">
-                <div id="timer-thanatos" class="timer timer-na">Quest / Summon</div>
-                <small id="death-time-thanatos" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
-                <!-- No buttons for quest boss -->
-            </div>
-        </div>
+         <!-- Memory of Thanatos - No buttons -->
+         <div class="mvp" id="card-thanatos">
+             <div>
+                 <div class="mvp-header">
+                     <span class="mvp-name">Memory of Thanatos</span>
+                     <span class="mvp-duration">(Quest / ID: 1708)</span>
+                 </div>
+                 <small class="mvp-map">thana_boss</small>
+                 <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1708.gif" alt="Thanatos Sprite">
+                 <div id="timer-thanatos" class="timer timer-na">Quest / Summon</div>
+                 <small id="death-time-thanatos" class="mvp-death-time">&nbsp;</small>
+             </div>
+             <div>
+                 <!-- No buttons needed -->
+             </div>
+         </div>
 
-        <!-- Turtle General -->
-        <div class="mvp" id="card-turtle_general">
-            <div>
+          <!-- Turtle General -->
+          <div class="mvp" id="card-turtle_general">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Turtle General</span>
                     <span class="mvp-duration">(60 min. / ID: 1312)</span>
                 </div>
                 <small class="mvp-map">tur_dun04</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1312.gif" alt="Turtle General Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1312.gif" alt="Turtle General Sprite">
                 <div id="timer-turtle_general" class="timer timer-na">...</div>
                 <small id="death-time-turtle_general" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('turtle_general', 3600)">กดตอนตาย (60m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('turtle_general', 3600)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('turtle_general')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('turtle_general', 3600)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Valkyrie Randgris -->
-        <div class="mvp" id="card-valkyrie">
-            <div>
+          <!-- Valkyrie Randgris -->
+          <div class="mvp" id="card-valkyrie">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Valkyrie Randgris</span>
                     <span class="mvp-duration">(480 min. / ID: 1751)</span>
                 </div>
                 <small class="mvp-map">odin_tem03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1751.gif" alt="Valkyrie Randgris Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1751.gif" alt="Valkyrie Randgris Sprite">
                 <div id="timer-valkyrie" class="timer timer-na">...</div>
                 <small id="death-time-valkyrie" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('valkyrie', 28800)">กดตอนตาย (480m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('valkyrie', 28800)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('valkyrie')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('valkyrie', 28800)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Vesper -->
-        <div class="mvp" id="card-vesper">
-            <div>
+          <!-- Vesper -->
+          <div class="mvp" id="card-vesper">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Vesper</span>
                     <span class="mvp-duration">(120 min. / ID: 1685)</span>
                 </div>
                 <small class="mvp-map">jupe_core</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1685.gif" alt="Vesper Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1685.gif" alt="Vesper Sprite">
                 <div id="timer-vesper" class="timer timer-na">...</div>
                 <small id="death-time-vesper" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('vesper', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('vesper', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('vesper')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('vesper', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Whitesmith Harword -->
-        <div class="mvp" id="card-harword">
-            <div>
+          <!-- Whitesmith Harword -->
+          <div class="mvp" id="card-harword">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Whitesmith Harword</span>
                     <span class="mvp-duration">(100 min. / ID: 1648)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1648.gif" alt="Whitesmith Harword Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1648.gif" alt="Whitesmith Harword Sprite">
                 <div id="timer-harword" class="timer timer-na">...</div>
                 <small id="death-time-harword" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('harword', 6000)">กดตอนตาย (100m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('harword', 6000)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('harword')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('harword', 6000)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Wounded Morocc -->
-        <div class="mvp" id="card-morocc">
-            <div>
+          <!-- Wounded Morocc -->
+          <div class="mvp" id="card-morocc">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Wounded Morocc</span>
                     <span class="mvp-duration">(720 min. / ID: 1917)</span>
                 </div>
                 <small class="mvp-map">moc_fild22</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1917.gif" alt="Wounded Morocc Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1917.gif" alt="Wounded Morocc Sprite">
                 <div id="timer-morocc" class="timer timer-na">...</div>
                 <small id="death-time-morocc" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('morocc', 43200)">กดตอนตาย (720m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('morocc', 43200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('morocc')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('morocc', 43200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
 
-        <!-- Ygnizem -->
-        <div class="mvp" id="card-ygnizem">
-            <div>
+          <!-- Ygnizem -->
+          <div class="mvp" id="card-ygnizem">
+              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Ygnizem</span>
                     <span class="mvp-duration">(120 min. / ID: 1658)</span>
                 </div>
                 <small class="mvp-map">lhz_dun02</small>
-                 <!-- --- 🎨 Updated image path --- -->
-                <img class="mvp-sprite" src="images/1658.gif" alt="Ygnizem Sprite">
+                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1658.gif" alt="Ygnizem Sprite">
                 <div id="timer-ygnizem" class="timer timer-na">...</div>
                 <small id="death-time-ygnizem" class="mvp-death-time">&nbsp;</small>
-            </div>
-            <div>
+              </div>
+              <div>
                 <div class="button-group">
-                    <button class="dead-btn" onclick="setTimer('ygnizem', 7200)">กดตอนตาย (120m)</button>
+                    <div class="button-row">
+                        <button class="dead-btn" onclick="setTimer('ygnizem', 7200)">กดตาย</button>
+                        <button class="clear-btn" onclick="clearTimer('ygnizem')">ล้าง</button>
+                    </div>
                     <button class="edit-btn" onclick="openEditModal('ygnizem', 7200)">แก้ไข</button>
                 </div>
-            </div>
-        </div>
+              </div>
+          </div>
+
 
     </div> <!-- จบ .mvp-container -->
 
 
-    <!-- 🖌️ 3. HTML สำหรับ Filter (ที่เพิ่มใหม่) -->
+    <!-- Filter Section -->
     <div class="filter-section">
         <h2>ตัวกรองบอส (Boss Filters)</h2>
-        <!-- --- 🎨 2. เพิ่มปุ่ม Select/Deselect All --- -->
         <div class="filter-controls">
             <button id="select-all-btn" class="filter-btn">Select All</button>
             <button id="deselect-all-btn" class="filter-btn">Deselect All</button>
         </div>
         <div id="filter-container">
-            <!-- Checkboxes จะถูกสร้างโดย JavaScript -->
+            <!-- Checkboxes generated by JS -->
         </div>
     </div>
 
 
-    <!-- 🖌️ MODAL สำหรับแก้ไขเวลา -->
+    <!-- Edit Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1420,12 +1586,12 @@
     </div>
 
 
-    <!-- 1. โหลด Firebase SDK (v8) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script>
-        // 2. ***** นี่คือ Config ที่สมบูรณ์ของคุณครับ *****
+        // Firebase Config
         const firebaseConfig = {
           apiKey: "AIzaSyANfAjWOYNWX8NKlPU2aTT28nVQ_lXF2Ns",
           authDomain: "mvp-timer-56d9d.firebaseapp.com",
@@ -1437,165 +1603,161 @@
           measurementId: "G-MEQVDLFYHT"
         };
 
-        // 3. เริ่มการเชื่อมต่อ Firebase
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const mvpRef = db.ref('mvp');
-        
-        // 4. (ส่วนเขียน) ฟังก์ชันเมื่อกดปุ่ม "ตาย"
+
+        // Function to set timer
         function setTimer(mvpName, respawnSeconds) {
             const nowInMs = new Date().getTime();
             const respawnTimeInMs = nowInMs + (respawnSeconds * 1000);
-
-            mvpRef.child(mvpName).set({
-                respawnAt: respawnTimeInMs
-            });
+            mvpRef.child(mvpName).set({ respawnAt: respawnTimeInMs });
         }
-        
-        // --- 🎨 2. (OVERHAUL) อัปเดต mvpList ใหม่ทั้งหมดตามข้อมูลที่ผู้ใช้ให้มา ---
+
+        // --- NEW Function to clear timer ---
+        function clearTimer(mvpName) {
+            mvpRef.child(mvpName).remove();
+        }
+        // --- End Clear Timer Function ---
+
+        // MVP List (Updated)
         const mvpList = [
-            { id: 'amon_ra', name: 'Amon Ra', seconds: 3600, id_num: 1511 }, // 60 min
-            { id: 'eremes', name: 'Assassin Cross Eremes', seconds: 6000, id_num: 1647 }, // 100 min
-            { id: 'atroce_ra_fild02', name: 'Atroce (ra_fild02)', seconds: 14400, id_num: 1785 }, // 240 min
-            { id: 'atroce_ra_fild03', name: 'Atroce (ra_fild03)', seconds: 10800, id_num: 1785 }, // 180 min
-            { id: 'atroce_ra_fild04', name: 'Atroce (ra_fild04)', seconds: 18000, id_num: 1785 }, // 300 min
-            { id: 'atroce_ve_fild01', name: 'Atroce (ve_fild01)', seconds: 10800, id_num: 1785 }, // 180 min
-            { id: 'atroce_ve_fild02', name: 'Atroce (ve_fild02)', seconds: 21600, id_num: 1785 }, // 360 min
-            { id: 'bacsojin', name: 'Bacsojin', seconds: 7020, id_num: 1630 }, // 117 min
-            { id: 'baphomet', name: 'Baphomet', seconds: 7200, id_num: 1039 }, // 120 min
-            { id: 'boitata', name: 'Boitata', seconds: 7200, id_num: 2068 }, // 120 min
-            { id: 'dark_lord', name: 'Dark Lord', seconds: 3600, id_num: 1272 }, // 60 min
-            { id: 'detale', name: 'Detale', seconds: 10800, id_num: 1719 }, // 180 min
-            { id: 'doppel', name: 'Doppelganger', seconds: 7200, id_num: 1046 }, // 120 min
-            { id: 'dracula', name: 'Dracula', seconds: 3600, id_num: 1389 }, // 60 min
-            { id: 'drake', name: 'Drake', seconds: 7200, id_num: 1112 }, // 120 min
-            { id: 'eddga', name: 'Eddga', seconds: 7200, id_num: 1115 }, // 120 min
-            { id: 'evil_snake_lord', name: 'Evil Snake Lord', seconds: 5640, id_num: 1418 }, // 94 min
-            { id: 'bishop', name: 'Fallen Bishop', seconds: 7200, id_num: 1871 }, // 120 min
-            { id: 'hatii', name: 'Garm / Hatii', seconds: 7200, id_num: 1252 }, // 120 min
-            { id: 'gloom', name: 'Gloom Under Night', seconds: 18000, id_num: 1768 }, // 300 min
-            { id: 'gold_queen', name: 'Gold Queen Scaraba', seconds: 7200, id_num: 2165 }, // 120 min
-            { id: 'gtb', name: 'Golden Thief Bug', seconds: 3600, id_num: 1086 }, // 60 min
-            { id: 'gopinich', name: 'Gopinich', seconds: 7200, id_num: 1885 }, // 120 min
-            { id: 'magaleta', name: 'High Priest Magaleta', seconds: 6000, id_num: 1649 }, // 100 min
-            { id: 'katrinn', name: 'High Wizard Katrinn', seconds: 6000, id_num: 1651 }, // 100 min
-            { id: 'ifrit', name: 'Ifrit', seconds: 39600, id_num: 1832 }, // 660 min
-            { id: 'samurai', name: 'Incantation Samurai', seconds: 5460, id_num: 1492 }, // 91 min
-            { id: 'kiel', name: 'Kiel D-01', seconds: 7200, id_num: 1734 }, // 120 min
-            { id: 'stormy', name: 'Stormy Knight', seconds: 3600, id_num: 1251 }, // 60 min
-            { id: 'ktullanux', name: 'Ktullanux', seconds: 0, id_num: 1779 }, // Quest
-            { id: 'lady_tanee', name: 'Lady Tanee', seconds: 25200, id_num: 1688 }, // 420 min
-            { id: 'leak', name: 'Leak', seconds: 7200, id_num: 2156 }, // 120 min
-            { id: 'seyren', name: 'Lord Knight Seyren', seconds: 6000, id_num: 1646 }, // 100 min
-            { id: 'lord_of_death', name: 'Lord of Death', seconds: 7980, id_num: 1373 }, // 133 min
-            { id: 'maya', name: 'Maya', seconds: 7200, id_num: 1147 }, // 120 min
-            { id: 'mistress', name: 'Mistress', seconds: 7200, id_num: 1059 }, // 120 min
-            { id: 'moonlight', name: 'Moonlight Flower', seconds: 3600, id_num: 1150 }, // 60 min
-            { id: 'nidhoggr', name: 'Nidhoggr\'s Shadow', seconds: 0, id_num: 2022 }, // Instance
-            { id: 'orc_hero_gef_fild02', name: 'Orc Hero (gef_fild02)', seconds: 86400, id_num: 1087 }, // 1440 min
-            { id: 'orc_hero_gef_fild14', name: 'Orc Hero (gef_fild14)', seconds: 3600, id_num: 1087 }, // 60 min
-            { id: 'orc_lord', name: 'Orc Lord', seconds: 7200, id_num: 1190 }, // 120 min
-            { id: 'osiris', name: 'Osiris', seconds: 3600, id_num: 1038 }, // 60 min
-            { id: 'pharaoh', name: 'Pharaoh', seconds: 3600, id_num: 1157 }, // 60 min
-            { id: 'phreeoni', name: 'Phreeoni', seconds: 7200, id_num: 1159 }, // 120 min
-            { id: 'queen_scaraba', name: 'Queen Scaraba', seconds: 7200, id_num: 2087 }, // 120 min
-            { id: 'rsx', name: 'RSX 0806', seconds: 7500, id_num: 1623 }, // 125 min
-            { id: 'shecil', name: 'Sniper Shecil', seconds: 6000, id_num: 1650 }, // 100 min
-            { id: 'tao_gunka', name: 'Tao Gunka', seconds: 18000, id_num: 1583 }, // 300 min
-            { id: 'thanatos', name: 'Memory of Thanatos', seconds: 0, id_num: 1708 }, // Quest
-            { id: 'turtle_general', name: 'Turtle General', seconds: 3600, id_num: 1312 }, // 60 min
-            { id: 'valkyrie', name: 'Valkyrie Randgris', seconds: 28800, id_num: 1751 }, // 480 min
-            { id: 'vesper', name: 'Vesper', seconds: 7200, id_num: 1685 }, // 120 min
-            { id: 'harword', name: 'Whitesmith Harword', seconds: 6000, id_num: 1648 }, // 100 min
-            { id: 'morocc', name: 'Wounded Morocc', seconds: 43200, id_num: 1917 }, // 720 min
-            { id: 'ygnizem', name: 'Ygnizem', seconds: 7200, id_num: 1658 } // 120 min
+            { id: 'amon_ra', name: 'Amon Ra', seconds: 3600, id_num: 1511 },
+            { id: 'eremes', name: 'Assassin Cross Eremes', seconds: 6000, id_num: 1647 },
+            { id: 'atroce_ra_fild02', name: 'Atroce (ra_fild02)', seconds: 14400, id_num: 1785 },
+            { id: 'atroce_ra_fild03', name: 'Atroce (ra_fild03)', seconds: 10800, id_num: 1785 },
+            { id: 'atroce_ra_fild04', name: 'Atroce (ra_fild04)', seconds: 18000, id_num: 1785 },
+            { id: 'atroce_ve_fild01', name: 'Atroce (ve_fild01)', seconds: 10800, id_num: 1785 },
+            { id: 'atroce_ve_fild02', name: 'Atroce (ve_fild02)', seconds: 21600, id_num: 1785 },
+            { id: 'bacsojin', name: 'Bacsojin', seconds: 7020, id_num: 1630 },
+            { id: 'baphomet', name: 'Baphomet', seconds: 7200, id_num: 1039 },
+            { id: 'boitata', name: 'Boitata', seconds: 7200, id_num: 2068 },
+            { id: 'dark_lord', name: 'Dark Lord', seconds: 3600, id_num: 1272 },
+            { id: 'detale', name: 'Detale', seconds: 10800, id_num: 1719 },
+            { id: 'doppel', name: 'Doppelganger', seconds: 7200, id_num: 1046 },
+            { id: 'dracula', name: 'Dracula', seconds: 3600, id_num: 1389 },
+            { id: 'drake', name: 'Drake', seconds: 7200, id_num: 1112 },
+            { id: 'eddga', name: 'Eddga', seconds: 7200, id_num: 1115 },
+            { id: 'evil_snake_lord', name: 'Evil Snake Lord', seconds: 5640, id_num: 1418 },
+            { id: 'bishop', name: 'Fallen Bishop', seconds: 7200, id_num: 1871 },
+            { id: 'hatii', name: 'Garm / Hatii', seconds: 7200, id_num: 1252 },
+            { id: 'gloom', name: 'Gloom Under Night', seconds: 18000, id_num: 1768 },
+            { id: 'gold_queen', name: 'Gold Queen Scaraba', seconds: 7200, id_num: 2165 },
+            { id: 'gtb', name: 'Golden Thief Bug', seconds: 3600, id_num: 1086 },
+            { id: 'gopinich', name: 'Gopinich', seconds: 7200, id_num: 1885 },
+            { id: 'magaleta', name: 'High Priest Magaleta', seconds: 6000, id_num: 1649 },
+            { id: 'katrinn', name: 'High Wizard Katrinn', seconds: 6000, id_num: 1651 },
+            { id: 'ifrit', name: 'Ifrit', seconds: 39600, id_num: 1832 },
+            { id: 'samurai', name: 'Incantation Samurai', seconds: 5460, id_num: 1492 },
+            { id: 'kiel', name: 'Kiel D-01', seconds: 7200, id_num: 1734 },
+            { id: 'stormy', name: 'Stormy Knight', seconds: 3600, id_num: 1251 },
+            { id: 'ktullanux', name: 'Ktullanux', seconds: 0, id_num: 1779 },
+            { id: 'lady_tanee', name: 'Lady Tanee', seconds: 25200, id_num: 1688 },
+            { id: 'leak', name: 'Leak', seconds: 7200, id_num: 2156 },
+            { id: 'seyren', name: 'Lord Knight Seyren', seconds: 6000, id_num: 1646 },
+            { id: 'lord_of_death', name: 'Lord of Death', seconds: 7980, id_num: 1373 },
+            { id: 'maya', name: 'Maya', seconds: 7200, id_num: 1147 },
+            { id: 'mistress', name: 'Mistress', seconds: 7200, id_num: 1059 },
+            { id: 'moonlight', name: 'Moonlight Flower', seconds: 3600, id_num: 1150 },
+            { id: 'nidhoggr', name: 'Nidhoggr\'s Shadow', seconds: 0, id_num: 2022 },
+            { id: 'orc_hero_gef_fild02', name: 'Orc Hero (gef_fild02)', seconds: 86400, id_num: 1087 },
+            { id: 'orc_hero_gef_fild14', name: 'Orc Hero (gef_fild14)', seconds: 3600, id_num: 1087 },
+            { id: 'orc_lord', name: 'Orc Lord', seconds: 7200, id_num: 1190 },
+            { id: 'osiris', name: 'Osiris', seconds: 3600, id_num: 1038 },
+            { id: 'pharaoh', name: 'Pharaoh', seconds: 3600, id_num: 1157 },
+            { id: 'phreeoni', name: 'Phreeoni', seconds: 7200, id_num: 1159 },
+            { id: 'queen_scaraba', name: 'Queen Scaraba', seconds: 7200, id_num: 2087 },
+            { id: 'rsx', name: 'RSX 0806', seconds: 7500, id_num: 1623 },
+            { id: 'shecil', name: 'Sniper Shecil', seconds: 6000, id_num: 1650 },
+            { id: 'tao_gunka', name: 'Tao Gunka', seconds: 18000, id_num: 1583 },
+            { id: 'thanatos', name: 'Memory of Thanatos', seconds: 0, id_num: 1708 },
+            { id: 'turtle_general', name: 'Turtle General', seconds: 3600, id_num: 1312 },
+            { id: 'valkyrie', name: 'Valkyrie Randgris', seconds: 28800, id_num: 1751 },
+            { id: 'vesper', name: 'Vesper', seconds: 7200, id_num: 1685 },
+            { id: 'harword', name: 'Whitesmith Harword', seconds: 6000, id_num: 1648 },
+            { id: 'morocc', name: 'Wounded Morocc', seconds: 43200, id_num: 1917 },
+            { id: 'ygnizem', name: 'Ygnizem', seconds: 7200, id_num: 1658 }
         ];
-        
-        // 5. (ส่วนอ่าน) กลไกการ Sync ข้อมูล
+
+        // --- Data Sync & Sound ---
         let currentMvpData = null;
-        let isSoundEnabled = localStorage.getItem('mvpTimerSoundEnabled') === 'true'; 
-        let mvpStates = {}; 
+        let isSoundEnabled = localStorage.getItem('mvpTimerSoundEnabled') === 'true';
+        let mvpStates = {};
         const alertSound = document.getElementById('alert-sound');
         const soundToggleButton = document.getElementById('sound-toggle');
-        
+
         function updateSoundToggleIcon() {
             if (soundToggleButton) {
                 soundToggleButton.textContent = isSoundEnabled ? '📢' : '🔇';
             }
         }
-
-        updateSoundToggleIcon(); 
+        updateSoundToggleIcon();
         if (soundToggleButton) {
             soundToggleButton.addEventListener('click', () => {
                 isSoundEnabled = !isSoundEnabled;
-                localStorage.setItem('mvpTimerSoundEnabled', isSoundEnabled); 
+                localStorage.setItem('mvpTimerSoundEnabled', isSoundEnabled);
                 updateSoundToggleIcon();
                 if (isSoundEnabled && alertSound) {
-                    alertSound.play().catch(e => console.log("Audio play failed (interaction needed or file missing)."));
-                    setTimeout(() => { if(alertSound && !alertSound.paused) alertSound.pause(); alertSound.currentTime = 0; }, 500); 
+                    alertSound.play().catch(e => console.log("Audio play failed"));
+                    setTimeout(() => { if(alertSound && !alertSound.paused) alertSound.pause(); alertSound.currentTime = 0; }, 500);
                 }
             });
         }
-        
-        mvpRef.on('value', (snapshot) => {
-            currentMvpData = snapshot.val();
-        }, (error) => {
-            console.error("Firebase read failed: " + error.name);
-        });
+        mvpRef.on('value', (snapshot) => { currentMvpData = snapshot.val(); },
+                      (error) => { console.error("Firebase read failed: " + error.name); });
+        setInterval(() => { if (currentMvpData !== null) { try { updateAllTimers(currentMvpData); } catch (e) { console.error("Error updating timers:", e); } } }, 1000);
+        // --- End Data Sync & Sound ---
 
-        setInterval(() => {
-            if (currentMvpData !== null) {
-                try {
-                    updateAllTimers(currentMvpData);
-                } catch (e) {
-                    console.error("Error updating timers:", e);
-                }
-            }
-        }, 1000);
-
-        
-        // 6. ฟังก์ชันนับถอยหลัง (3-Phase Timer Logic)
-        const LATE_WINDOW_MS = 600000; // 10 นาที
+        // --- Timer Logic ---
+        const LATE_WINDOW_MS = 600000; // 10 minutes
         const mvpContainer = document.getElementById("mvp-list-container");
 
         function updateAllTimers(data) {
             const now = new Date().getTime();
-            let newStates = {}; 
+            let newStates = {};
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
             let mvpsToSort = mvpList.map(mvpData => {
                 const mvpName = mvpData.id;
                 const mvpInfo = data ? data[mvpName] : null;
-                let sortValue = Infinity; 
-                
-                if (mvpInfo && mvpInfo.respawnAt) {
-                    sortValue = mvpInfo.respawnAt; 
-                }
-
+                let sortValue = Infinity;
+                if (mvpInfo && mvpInfo.respawnAt) { sortValue = mvpInfo.respawnAt; }
                 return {
-                    name: mvpName,
+                    id: mvpName,
+                    name: mvpData.name,
                     seconds: mvpData.seconds,
                     sortValue: sortValue,
-                    element: document.getElementById('card-' + mvpName), 
+                    element: document.getElementById('card-' + mvpName),
                     timerElement: document.getElementById('timer-' + mvpName),
                     deathTimeElement: document.getElementById('death-time-' + mvpName)
                 };
             });
 
             mvpsToSort.sort((a, b) => a.sortValue - b.sortValue);
-            
+
             mvpsToSort.forEach(mvp => {
                 if (!mvp || !mvp.element) { return; }
-                
-                const isTimerBoss = mvp.seconds > 0; 
-                let currentState = 'na'; 
+
+                // --- Visibility Check ---
+                const mvpNameLower = mvp.name.toLowerCase();
+                const matchesSearch = searchTerm === '' || mvpNameLower.includes(searchTerm);
+                const checkbox = document.getElementById('filter-' + mvp.id);
+                const isChecked = checkbox ? checkbox.checked : true;
+                mvp.element.style.display = (matchesSearch && isChecked) ? 'flex' : 'none';
+                // --- End Visibility Check ---
+
+
+                // --- Timer Update Logic ---
+                const isTimerBoss = mvp.seconds > 0;
+                let currentState = 'na';
 
                 if (isTimerBoss) {
-                    if (!mvp.timerElement || !mvp.deathTimeElement) {
+                     if (!mvp.timerElement || !mvp.deathTimeElement) {
                          if (mvpContainer.contains(mvp.element)) { mvpContainer.appendChild(mvp.element); }
-                         return; 
-                    }
-
-                    const mvpInfo = data ? data[mvp.name] : null;
+                         return;
+                     }
+                    const mvpInfo = data ? data[mvp.id] : null;
 
                     if (mvpInfo && mvpInfo.respawnAt) {
                         const respawnTime = mvpInfo.respawnAt;
@@ -1610,47 +1772,48 @@
                             mvp.timerElement.textContent = formatTime(windowTimeLeftMs);
                             mvp.timerElement.className = 'timer timer-window';
                             currentState = 'window';
-
-                            const previousState = mvpStates[mvp.name];
+                            const previousState = mvpStates[mvp.id];
                             if (previousState === 'normal' && currentState === 'window' && isSoundEnabled && alertSound) {
-                                alertSound.currentTime = 0; 
+                                alertSound.currentTime = 0;
                                 alertSound.play().catch(e => console.log("Alert play failed:", e));
                             }
                         } else {
                             const overdueMs = Math.abs(timeLeftMs) - LATE_WINDOW_MS;
-                            mvp.timerElement.textContent = formatTime(overdueMs); 
+                            mvp.timerElement.textContent = formatTime(overdueMs);
                             mvp.timerElement.className = 'timer timer-overdue';
                             currentState = 'overdue';
                         }
-                        
                         const deathTimeMs = respawnTime - (mvp.seconds * 1000);
                         mvp.deathTimeElement.textContent = formatDeathTime(deathTimeMs);
-
                     } else {
                         mvp.timerElement.textContent = "N/A";
                         mvp.timerElement.className = 'timer timer-na';
-                        mvp.deathTimeElement.innerHTML = "&nbsp;"; 
+                        mvp.deathTimeElement.innerHTML = "&nbsp;";
                         currentState = 'na';
                     }
-                } else {
-                    if (mvp.timerElement) { 
-                         const mvpData = mvpList.find(item => item.id === mvp.name);
+                } else { // Non-timer bosses
+                    if (mvp.timerElement) {
+                         const mvpData = mvpList.find(item => item.id === mvp.id);
                          const displayText = (mvpData && mvpData.id_num === 2022) ? "Instance" : "Quest / Summon";
                          mvp.timerElement.textContent = displayText;
-                         mvp.timerElement.className = 'timer timer-na'; 
+                         mvp.timerElement.className = 'timer timer-na';
                     }
                     if (mvp.deathTimeElement) { mvp.deathTimeElement.innerHTML = "&nbsp;"; }
                     currentState = 'na';
                 }
-                
-                newStates[mvp.name] = currentState;
+                newStates[mvp.id] = currentState;
 
-                if (mvpContainer.contains(mvp.element)) { mvpContainer.appendChild(mvp.element); }
+                // Re-append visible elements
+                if (mvp.element.style.display !== 'none' && mvpContainer.contains(mvp.element)) {
+                    mvpContainer.appendChild(mvp.element);
+                }
             });
             mvpStates = newStates;
         }
+        // --- End Timer Logic ---
 
-        function formatTime(ms) {
+        // --- Utility Functions ---
+        function formatTime(ms) { /* ... same as before ... */
             let totalSeconds = Math.floor(ms / 1000);
             let hours = Math.floor(totalSeconds / 3600);
             totalSeconds %= 3600;
@@ -1659,10 +1822,9 @@
             hours = (hours < 10) ? "0" + hours : hours;
             minutes = (minutes < 10) ? "0" + minutes : minutes;
             seconds = (seconds < 10) ? "0" + seconds : seconds;
-            return hours + ":" + minutes + ":" + seconds;
+            return `${hours}:${minutes}:${seconds}`;
         }
-
-        function formatDeathTime(ms) {
+        function formatDeathTime(ms) { /* ... same as before ... */
             const d = new Date(ms);
             const D = d.getDate().toString().padStart(2, '0');
             const M = (d.getMonth() + 1).toString().padStart(2, '0');
@@ -1670,22 +1832,30 @@
             const m = d.getMinutes().toString().padStart(2, '0');
             const s = d.getSeconds().toString().padStart(2, '0');
             return `ตาย: ${D}/${M} ${h}:${m}:${s}`;
+         }
+        function formatDateForInput(date) { /* ... same as before ... */
+            const Y = date.getFullYear();
+            const M = (date.getMonth() + 1).toString().padStart(2, '0');
+            const D = date.getDate().toString().padStart(2, '0');
+            const h = date.getHours().toString().padStart(2, '0');
+            const m = date.getMinutes().toString().padStart(2, '0');
+            return `${Y}-${M}-${D}T${h}:${m}`;
         }
+        // --- End Utility Functions ---
 
-        /* --- JavaScript สำหรับ Modal แก้ไข --- */
+
+        // --- Edit Modal Logic ---
         const editModal = document.getElementById("editModal");
         const editCloseBtn = document.getElementById("edit-close-btn");
         const editInput = document.getElementById("edit-datetime");
         const saveEditBtn = document.getElementById("save-edit-btn");
-        let currentEditData = null; 
-
-        function openEditModal(mvpName, respawnSeconds) {
+        let currentEditData = null;
+        function openEditModal(mvpName, respawnSeconds) { /* ... same as before ... */
             currentEditData = { name: mvpName, seconds: respawnSeconds };
             editInput.value = formatDateForInput(new Date());
             editModal.style.display = "block";
         }
-
-        function handleSaveEdit() {
+        function handleSaveEdit() { /* ... same as before ... */
             if (!currentEditData) return;
             const newDeathTimeString = editInput.value;
             if (!newDeathTimeString) { console.warn("No death time selected."); return; }
@@ -1695,25 +1865,21 @@
             editModal.style.display = "none";
             currentEditData = null;
         }
-
         if (saveEditBtn) { saveEditBtn.onclick = handleSaveEdit; }
         if (editCloseBtn) { editCloseBtn.onclick = function() { editModal.style.display = "none"; } }
         window.onclick = function(event) { if (event.target == editModal) { editModal.style.display = "none"; } }
-        
-        function formatDateForInput(date) {
-            const Y = date.getFullYear();
-            const M = (date.getMonth() + 1).toString().padStart(2, '0');
-            const D = date.getDate().toString().padStart(2, '0');
-            const h = date.getHours().toString().padStart(2, '0');
-            const m = date.getMinutes().toString().padStart(2, '0');
-            return `${Y}-${M}-${D}T${h}:${m}`;
-        }
+        // --- End Edit Modal Logic ---
 
-        /* --- JavaScript สำหรับตัวกรอง (Filter) --- */
+
+        // --- Filter Logic ---
         const filterContainer = document.getElementById("filter-container");
-        if (filterContainer) {
+        const searchInput = document.getElementById('search-input'); // Search Input
+        const clearSearchBtn = document.getElementById('clear-search-btn'); // Clear Button
+
+        if (filterContainer && searchInput && clearSearchBtn) { // Ensure all elements exist
             const sortedMvpListForFilter = [...mvpList].sort((a, b) => a.name.localeCompare(b.name));
-            sortedMvpListForFilter.forEach(mvpData => {
+
+            sortedMvpListForFilter.forEach(mvpData => { // Create checkboxes
                 const displayName = mvpData.name;
                 const filterItem = document.createElement('div');
                 filterItem.className = 'filter-item';
@@ -1721,7 +1887,7 @@
                 input.type = 'checkbox';
                 input.id = 'filter-' + mvpData.id;
                 input.value = mvpData.id;
-                input.checked = true; 
+                input.checked = true;
                 const label = document.createElement('label');
                 label.htmlFor = 'filter-' + mvpData.id;
                 label.textContent = displayName;
@@ -1730,32 +1896,61 @@
                 filterContainer.appendChild(filterItem);
             });
 
+            // --- Combined Filter Function ---
+            function applyFilters() {
+                 const searchTerm = searchInput.value.toLowerCase();
+                 const checkboxes = filterContainer.querySelectorAll('input[type="checkbox"]');
+                 const checkedMvps = new Set();
+                 checkboxes.forEach(cb => { if (cb.checked) { checkedMvps.add(cb.value); } });
+
+                 mvpList.forEach(mvpData => {
+                     const card = document.getElementById('card-' + mvpData.id);
+                     if (card) {
+                         const mvpNameLower = mvpData.name.toLowerCase();
+                         const matchesSearch = searchTerm === '' || mvpNameLower.includes(searchTerm);
+                         const isChecked = checkedMvps.has(mvpData.id);
+                         card.style.display = (matchesSearch && isChecked) ? 'flex' : 'none';
+                     }
+                 });
+
+                 clearSearchBtn.style.display = searchTerm ? 'block' : 'none';
+
+                 // Trigger timer update to re-sort visible items
+                 if (currentMvpData !== null) { updateAllTimers(currentMvpData); }
+            }
+            // --- End Combined Filter Function ---
+
+            // Event listener for checkboxes
             filterContainer.addEventListener('change', (event) => {
-                if (event.target.type === 'checkbox') {
-                    const mvpId = event.target.value;
-                    const isChecked = event.target.checked;
-                    const cardToShowHide = document.getElementById('card-' + mvpId);
-                    if (cardToShowHide) { cardToShowHide.style.display = isChecked ? 'flex' : 'none'; }
-                }
+                if (event.target.type === 'checkbox') { applyFilters(); }
             });
-            
-            /* --- JS for Filter Buttons --- */
+
+            // Event listener for search input
+            searchInput.addEventListener('input', applyFilters);
+
+            // Event listener for clear search button
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                applyFilters();
+            });
+
+            // Filter Buttons (Select/Deselect All)
             const selectAllBtn = document.getElementById('select-all-btn');
             const deselectAllBtn = document.getElementById('deselect-all-btn');
             function setAllCheckboxes(checkedState) {
                 const checkboxes = filterContainer.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = checkedState;
-                    const mvpId = checkbox.value;
-                    const cardToShowHide = document.getElementById('card-' + mvpId);
-                    if (cardToShowHide) { cardToShowHide.style.display = checkedState ? 'flex' : 'none'; }
-                });
+                checkboxes.forEach(checkbox => { checkbox.checked = checkedState; });
+                applyFilters();
             }
             if (selectAllBtn) { selectAllBtn.onclick = function() { setAllCheckboxes(true); } }
             if (deselectAllBtn) { deselectAllBtn.onclick = function() { setAllCheckboxes(false); } }
-            /* --- End new JS --- */
-        }
-        /* --- จบ JS Filter --- */
+
+            applyFilters(); // Initial filter
+
+        } // End if(filterContainer...)
+
+        // --- End Filter Logic ---
+
     </script>
 </body>
 </html>
