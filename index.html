@@ -18,16 +18,14 @@
             color: #818cf8;
             text-align: center;
         }
-        /* --- 🎨 1. NEW CSS for Sound Toggle --- */
         #sound-toggle {
             position: absolute;
             top: 15px;
             right: 20px;
             font-size: 1.8em;
             cursor: pointer;
-            user-select: none; /* Prevent text selection */
+            user-select: none; 
         }
-        /* --- End New CSS --- */
 
         .mvp-container {
             display: grid;
@@ -95,15 +93,9 @@
             margin: 10px 0;
             font-family: "Courier New", Courier, monospace;
         }
-        .timer.timer-normal { 
-            color: #f0f0f0;
-        }
-        .timer.timer-window { 
-            color: #4ade80; 
-        }
-        .timer.timer-overdue { 
-            color: #f87171;
-        }
+        .timer.timer-normal { color: #f0f0f0; }
+        .timer.timer-window { color: #4ade80; }
+        .timer.timer-overdue { color: #f87171; }
         .timer.timer-na {
             color: #777;
             font-size: 1.5em;
@@ -118,7 +110,7 @@
             font-style: italic;
             text-align: center;
             margin-top: 5px;
-            height: 1.2em; /* จองพื้นที่ไว้ กันหน้าจอกระโดด */
+            height: 1.2em; 
         }
 
 
@@ -139,19 +131,10 @@
             transition: background-color 0.2s;
         }
         
-        .dead-btn {
-            background-color: #ef4444;
-        }
-        .dead-btn:hover {
-            background-color: #dc2626;
-        }
-        
-        .edit-btn {
-            background-color: #3b82f6;
-        }
-        .edit-btn:hover {
-            background-color: #2563eb;
-        }
+        .dead-btn { background-color: #ef4444; }
+        .dead-btn:hover { background-color: #dc2626; }
+        .edit-btn { background-color: #3b82f6; }
+        .edit-btn:hover { background-color: #2563eb; }
         
         /* --- CSS สำหรับ Modal แก้ไข --- */
         .modal {
@@ -183,27 +166,15 @@
             padding-bottom: 10px;
             margin-bottom: 15px;
         }
-        .modal-header h2 {
-            margin: 0;
-            color: #c7d2fe;
-        }
+        .modal-header h2 { margin: 0; color: #c7d2fe; }
         .close-btn {
             color: #ccc;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
         }
-        .close-btn:hover,
-        .close-btn:focus {
-            color: #ffffff;
-        }
-        
-        #edit-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
+        .close-btn:hover, .close-btn:focus { color: #ffffff; }
+        #edit-form label { display: block; margin-bottom: 5px; font-weight: bold; }
         #edit-datetime {
             width: 100%;
             padding: 8px;
@@ -216,14 +187,8 @@
             border-radius: 4px;
             color-scheme: dark;
         }
-        
-        #save-edit-btn {
-            background-color: #5cb85c;
-            width: 100%;
-        }
-        #save-edit-btn:hover {
-            background-color: #4cae4c;
-        }
+        #save-edit-btn { background-color: #5cb85c; width: 100%; }
+        #save-edit-btn:hover { background-color: #4cae4c; }
         /* --- จบ CSS Modal --- */
 
         
@@ -254,36 +219,22 @@
             background-color: #555;
             border: 1px solid #777;
         }
-        .filter-btn:hover {
-            background-color: #666;
-        }
+        .filter-btn:hover { background-color: #666; }
         
         #filter-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
         }
-        .filter-item {
-            display: flex;
-            align-items: center;
-        }
-        .filter-item input {
-            margin-right: 8px;
-            accent-color: #3b82f6;
-        }
-        .filter-item label {
-            font-size: 0.95em;
-            cursor: pointer;
-        }
+        .filter-item { display: flex; align-items: center; }
+        .filter-item input { margin-right: 8px; accent-color: #3b82f6; }
+        .filter-item label { font-size: 0.95em; cursor: pointer; }
         /* --- จบ CSS Filter --- */
 
     </style>
 </head>
 <body>
-    <!-- --- 🎨 2. เพิ่มปุ่ม Toggle เสียง --- -->
     <div id="sound-toggle">📢</div>
-
-    <!-- --- 🎨 3. เพิ่ม Audio Element (ซ่อนไว้) --- -->
     <audio id="alert-sound" src="mvpalert2.mp3" preload="auto"></audio>
 
     <h1>Ragnarok MVP Timer (Sync)</h1>
@@ -298,7 +249,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1511)</span>
                 </div>
                 <small class="mvp-map">moc_pryd06</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1511.gif" alt="Amon Ra Sprite">
+                <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1511.gif" alt="Amon Ra Sprite">
                 <div id="timer-amon_ra" class="timer timer-na">...</div>
                 <small id="death-time-amon_ra" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -318,7 +270,8 @@
                     <span class="mvp-duration">(100 min. / ID: 1647)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1647.gif" alt="Assassin Cross Eremes Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1647.gif" alt="Assassin Cross Eremes Sprite">
                 <div id="timer-eremes" class="timer timer-na">...</div>
                 <small id="death-time-eremes" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -338,7 +291,8 @@
                     <span class="mvp-duration">(240 min. / ID: 1785)</span>
                 </div>
                 <small class="mvp-map">Od Canyon</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
                 <div id="timer-atroce_ra_fild02" class="timer timer-na">...</div>
                 <small id="death-time-atroce_ra_fild02" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -358,7 +312,8 @@
                     <span class="mvp-duration">(180 min. / ID: 1785)</span>
                 </div>
                 <small class="mvp-map">The Plain of Ida</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
                 <div id="timer-atroce_ra_fild03" class="timer timer-na">...</div>
                 <small id="death-time-atroce_ra_fild03" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -378,7 +333,8 @@
                     <span class="mvp-duration">(300 min. / ID: 1785)</span>
                 </div>
                 <small class="mvp-map">Audhumbla Grassland</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
                 <div id="timer-atroce_ra_fild04" class="timer timer-na">...</div>
                 <small id="death-time-atroce_ra_fild04" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -398,7 +354,8 @@
                     <span class="mvp-duration">(180 min. / ID: 1785)</span>
                 </div>
                 <small class="mvp-map">Veins Field</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
                 <div id="timer-atroce_ve_fild01" class="timer timer-na">...</div>
                 <small id="death-time-atroce_ve_fild01" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -418,7 +375,8 @@
                     <span class="mvp-duration">(360 min. / ID: 1785)</span>
                 </div>
                 <small class="mvp-map">Veins Field</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1785.gif" alt="Atroce Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1785.gif" alt="Atroce Sprite">
                 <div id="timer-atroce_ve_fild02" class="timer timer-na">...</div>
                 <small id="death-time-atroce_ve_fild02" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -438,7 +396,8 @@
                     <span class="mvp-duration">(117 min. / ID: 1630)</span>
                 </div>
                 <small class="mvp-map">lou_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1630.gif" alt="Bacsojin Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1630.gif" alt="Bacsojin Sprite">
                 <div id="timer-bacsojin" class="timer timer-na">...</div>
                 <small id="death-time-bacsojin" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -458,7 +417,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1039)</span>
                 </div>
                 <small class="mvp-map">prt_maze03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1039.gif" alt="Baphomet Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1039.gif" alt="Baphomet Sprite">
                 <div id="timer-baphomet" class="timer timer-na">...</div>
                 <small id="death-time-baphomet" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -478,7 +438,8 @@
                     <span class="mvp-duration">(120 min. / ID: 2068)</span>
                 </div>
                 <small class="mvp-map">bra_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2068.gif" alt="Boitata Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/2068.gif" alt="Boitata Sprite">
                 <div id="timer-boitata" class="timer timer-na">...</div>
                 <small id="death-time-boitata" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -498,7 +459,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1272)</span>
                 </div>
                 <small class="mvp-map">gl_chyard</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1272.gif" alt="Dark Lord Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1272.gif" alt="Dark Lord Sprite">
                 <div id="timer-dark_lord" class="timer timer-na">...</div>
                 <small id="death-time-dark_lord" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -518,7 +480,8 @@
                     <span class="mvp-duration">(180 min. / ID: 1719)</span>
                 </div>
                 <small class="mvp-map">abyss_03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1719.gif" alt="Detale Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1719.gif" alt="Detale Sprite">
                 <div id="timer-detale" class="timer timer-na">...</div>
                 <small id="death-time-detale" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -538,7 +501,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1046)</span>
                 </div>
                 <small class="mvp-map">gef_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1046.gif" alt="Doppelganger Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1046.gif" alt="Doppelganger Sprite">
                 <div id="timer-doppel" class="timer timer-na">...</div>
                 <small id="death-time-doppel" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -558,7 +522,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1389)</span>
                 </div>
                 <small class="mvp-map">gef_dun01</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1389.gif" alt="Dracula Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1389.gif" alt="Dracula Sprite">
                 <div id="timer-dracula" class="timer timer-na">...</div>
                 <small id="death-time-dracula" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -578,7 +543,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1112)</span>
                 </div>
                 <small class="mvp-map">treasure02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1112.gif" alt="Drake Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1112.gif" alt="Drake Sprite">
                 <div id="timer-drake" class="timer timer-na">...</div>
                 <small id="death-time-drake" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -598,7 +564,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1115)</span>
                 </div>
                 <small class="mvp-map">pay_fild11</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1115.gif" alt="Eddga Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1115.gif" alt="Eddga Sprite">
                 <div id="timer-eddga" class="timer timer-na">...</div>
                 <small id="death-time-eddga" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -618,7 +585,8 @@
                     <span class="mvp-duration">(94 min. / ID: 1418)</span>
                 </div>
                 <small class="mvp-map">gon_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1418.gif" alt="Evil Snake Lord Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1418.gif" alt="Evil Snake Lord Sprite">
                 <div id="timer-evil_snake_lord" class="timer timer-na">...</div>
                 <small id="death-time-evil_snake_lord" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -638,7 +606,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1871)</span>
                 </div>
                 <small class="mvp-map">abbey02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1871.gif" alt="Fallen Bishop Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1871.gif" alt="Fallen Bishop Sprite">
                 <div id="timer-bishop" class="timer timer-na">...</div>
                 <small id="death-time-bishop" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -658,7 +627,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1252)</span>
                 </div>
                 <small class="mvp-map">xmas_fild01</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1252.gif" alt="Garm / Hatii Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1252.gif" alt="Garm / Hatii Sprite">
                 <div id="timer-hatii" class="timer timer-na">...</div>
                 <small id="death-time-hatii" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -678,7 +648,8 @@
                     <span class="mvp-duration">(300 min. / ID: 1768)</span>
                 </div>
                 <small class="mvp-map">ra_san05</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1768.gif" alt="Gloom Under Night Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1768.gif" alt="Gloom Under Night Sprite">
                 <div id="timer-gloom" class="timer timer-na">...</div>
                 <small id="death-time-gloom" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -698,7 +669,8 @@
                     <span class="mvp-duration">(120 min. / ID: 2165)</span>
                 </div>
                 <small class="mvp-map">dic_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2165.gif" alt="Gold Queen Scaraba Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/2165.gif" alt="Gold Queen Scaraba Sprite">
                 <div id="timer-gold_queen" class="timer timer-na">...</div>
                 <small id="death-time-gold_queen" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -718,7 +690,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1086)</span>
                 </div>
                 <small class="mvp-map">prt_sewb4</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1086.gif" alt="Golden Thief Bug Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1086.gif" alt="Golden Thief Bug Sprite">
                 <div id="timer-gtb" class="timer timer-na">...</div>
                 <small id="death-time-gtb" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -738,7 +711,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1885)</span>
                 </div>
                 <small class="mvp-map">mosk_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1885.gif" alt="Gopinich Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1885.gif" alt="Gopinich Sprite">
                 <div id="timer-gopinich" class="timer timer-na">...</div>
                 <small id="death-time-gopinich" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -758,7 +732,8 @@
                     <span class="mvp-duration">(100 min. / ID: 1649)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1649.gif" alt="High Priest Magaleta Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1649.gif" alt="High Priest Magaleta Sprite">
                 <div id="timer-magaleta" class="timer timer-na">...</div>
                 <small id="death-time-magaleta" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -778,7 +753,8 @@
                     <span class="mvp-duration">(100 min. / ID: 1651)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1651.gif" alt="High Wizard Katrinn Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1651.gif" alt="High Wizard Katrinn Sprite">
                 <div id="timer-katrinn" class="timer timer-na">...</div>
                 <small id="death-time-katrinn" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -798,7 +774,8 @@
                     <span class="mvp-duration">(660 min. / ID: 1832)</span>
                 </div>
                 <small class="mvp-map">thor_v03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1832.gif" alt="Ifrit Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1832.gif" alt="Ifrit Sprite">
                 <div id="timer-ifrit" class="timer timer-na">...</div>
                 <small id="death-time-ifrit" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -818,7 +795,8 @@
                     <span class="mvp-duration">(91 min. / ID: 1492)</span>
                 </div>
                 <small class="mvp-map">ama_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1492.gif" alt="Incantation Samurai Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1492.gif" alt="Incantation Samurai Sprite">
                 <div id="timer-samurai" class="timer timer-na">...</div>
                 <small id="death-time-samurai" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -838,7 +816,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1734)</span>
                 </div>
                 <small class="mvp-map">kh_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1734.gif" alt="Kiel D-01 Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1734.gif" alt="Kiel D-01 Sprite">
                 <div id="timer-kiel" class="timer timer-na">...</div>
                 <small id="death-time-kiel" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -858,7 +837,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1251)</span>
                 </div>
                 <small class="mvp-map">xmas_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1251.gif" alt="Stormy Knight Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1251.gif" alt="Stormy Knight Sprite">
                 <div id="timer-stormy" class="timer timer-na">...</div>
                 <small id="death-time-stormy" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -878,7 +858,8 @@
                     <span class="mvp-duration">(Quest / ID: 1779)</span>
                 </div>
                 <small class="mvp-map">ice_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1779.gif" alt="Ktullanux Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1779.gif" alt="Ktullanux Sprite">
                 <div id="timer-ktullanux" class="timer timer-na">Quest / Summon</div>
                 <small id="death-time-ktullanux" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -895,7 +876,8 @@
                     <span class="mvp-duration">(420 min. / ID: 1688)</span>
                 </div>
                 <small class="mvp-map">ayo_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1688.gif" alt="Lady Tanee Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1688.gif" alt="Lady Tanee Sprite">
                 <div id="timer-lady_tanee" class="timer timer-na">...</div>
                 <small id="death-time-lady_tanee" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -915,7 +897,8 @@
                     <span class="mvp-duration">(120 min. / ID: 2156)</span>
                 </div>
                 <small class="mvp-map">dew_dun01</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2156.gif" alt="Leak Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/2156.gif" alt="Leak Sprite">
                 <div id="timer-leak" class="timer timer-na">...</div>
                 <small id="death-time-leak" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -935,7 +918,8 @@
                     <span class="mvp-duration">(100 min. / ID: 1646)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1646.gif" alt="Lord Knight Seyren Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1646.gif" alt="Lord Knight Seyren Sprite">
                 <div id="timer-seyren" class="timer timer-na">...</div>
                 <small id="death-time-seyren" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -955,7 +939,8 @@
                     <span class="mvp-duration">(133 min. / ID: 1373)</span>
                 </div>
                 <small class="mvp-map">niflheim</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1373.gif" alt="Lord of Death Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1373.gif" alt="Lord of Death Sprite">
                 <div id="timer-lord_of_death" class="timer timer-na">...</div>
                 <small id="death-time-lord_of_death" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -975,7 +960,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1147)</span>
                 </div>
                 <small class="mvp-map">anthell02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1147.gif" alt="Maya Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1147.gif" alt="Maya Sprite">
                 <div id="timer-maya" class="timer timer-na">...</div>
                 <small id="death-time-maya" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -995,7 +981,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1059)</span>
                 </div>
                 <small class="mvp-map">mjolnir_04</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1059.gif" alt="Mistress Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1059.gif" alt="Mistress Sprite">
                 <div id="timer-mistress" class="timer timer-na">...</div>
                 <small id="death-time-mistress" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1015,7 +1002,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1150)</span>
                 </div>
                 <small class="mvp-map">pay_dun04</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1150.gif" alt="Moonlight Flower Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1150.gif" alt="Moonlight Flower Sprite">
                 <div id="timer-moonlight" class="timer timer-na">...</div>
                 <small id="death-time-moonlight" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1035,7 +1023,8 @@
                     <span class="mvp-duration">(Instance / ID: 2022)</span>
                 </div>
                 <small class="mvp-map">2@nyd</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2022.gif" alt="Nidhoggr's Shadow Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/2022.gif" alt="Nidhoggr's Shadow Sprite">
                 <div id="timer-nidhoggr" class="timer timer-na">Instance</div>
                 <small id="death-time-nidhoggr" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1052,7 +1041,8 @@
                     <span class="mvp-duration">(1440 min. / ID: 1087)</span>
                 </div>
                 <small class="mvp-map">Geffen Field</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1087.gif" alt="Orc Hero Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1087.gif" alt="Orc Hero Sprite">
                 <div id="timer-orc_hero_gef_fild02" class="timer timer-na">...</div>
                 <small id="death-time-orc_hero_gef_fild02" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1072,7 +1062,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1087)</span>
                 </div>
                 <small class="mvp-map">West Orc Village</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1087.gif" alt="Orc Hero Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1087.gif" alt="Orc Hero Sprite">
                 <div id="timer-orc_hero_gef_fild14" class="timer timer-na">...</div>
                 <small id="death-time-orc_hero_gef_fild14" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1092,7 +1083,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1190)</span>
                 </div>
                 <small class="mvp-map">gef_fild10</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1190.gif" alt="Orc Lord Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1190.gif" alt="Orc Lord Sprite">
                 <div id="timer-orc_lord" class="timer timer-na">...</div>
                 <small id="death-time-orc_lord" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1112,7 +1104,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1038)</span>
                 </div>
                 <small class="mvp-map">moc_pryd04</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1038.gif" alt="Osiris Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1038.gif" alt="Osiris Sprite">
                 <div id="timer-osiris" class="timer timer-na">...</div>
                 <small id="death-time-osiris" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1132,7 +1125,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1157)</span>
                 </div>
                 <small class="mvp-map">in_sphinx5</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1157.gif" alt="Pharaoh Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1157.gif" alt="Pharaoh Sprite">
                 <div id="timer-pharaoh" class="timer timer-na">...</div>
                 <small id="death-time-pharaoh" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1152,7 +1146,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1159)</span>
                 </div>
                 <small class="mvp-map">moc_fild17</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1159.gif" alt="Phreeoni Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1159.gif" alt="Phreeoni Sprite">
                 <div id="timer-phreeoni" class="timer timer-na">...</div>
                 <small id="death-time-phreeoni" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1172,7 +1167,8 @@
                     <span class="mvp-duration">(120 min. / ID: 2087)</span>
                 </div>
                 <small class="mvp-map">dic_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/2087.gif" alt="Queen Scaraba Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/2087.gif" alt="Queen Scaraba Sprite">
                 <div id="timer-queen_scaraba" class="timer timer-na">...</div>
                 <small id="death-time-queen_scaraba" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1192,7 +1188,8 @@
                     <span class="mvp-duration">(125 min. / ID: 1623)</span>
                 </div>
                 <small class="mvp-map">ein_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1623.gif" alt="RSX 0806 Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1623.gif" alt="RSX 0806 Sprite">
                 <div id="timer-rsx" class="timer timer-na">...</div>
                 <small id="death-time-rsx" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1212,7 +1209,8 @@
                     <span class="mvp-duration">(100 min. / ID: 1650)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1650.gif" alt="Sniper Shecil Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1650.gif" alt="Sniper Shecil Sprite">
                 <div id="timer-shecil" class="timer timer-na">...</div>
                 <small id="death-time-shecil" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1232,7 +1230,8 @@
                     <span class="mvp-duration">(300 min. / ID: 1583)</span>
                 </div>
                 <small class="mvp-map">beach_dun</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1583.gif" alt="Tao Gunka Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1583.gif" alt="Tao Gunka Sprite">
                 <div id="timer-tao_gunka" class="timer timer-na">...</div>
                 <small id="death-time-tao_gunka" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1252,7 +1251,8 @@
                     <span class="mvp-duration">(Quest / ID: 1708)</span>
                 </div>
                 <small class="mvp-map">thana_boss</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1708.gif" alt="Thanatos Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1708.gif" alt="Thanatos Sprite">
                 <div id="timer-thanatos" class="timer timer-na">Quest / Summon</div>
                 <small id="death-time-thanatos" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1269,7 +1269,8 @@
                     <span class="mvp-duration">(60 min. / ID: 1312)</span>
                 </div>
                 <small class="mvp-map">tur_dun04</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1312.gif" alt="Turtle General Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1312.gif" alt="Turtle General Sprite">
                 <div id="timer-turtle_general" class="timer timer-na">...</div>
                 <small id="death-time-turtle_general" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1289,7 +1290,8 @@
                     <span class="mvp-duration">(480 min. / ID: 1751)</span>
                 </div>
                 <small class="mvp-map">odin_tem03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1751.gif" alt="Valkyrie Randgris Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1751.gif" alt="Valkyrie Randgris Sprite">
                 <div id="timer-valkyrie" class="timer timer-na">...</div>
                 <small id="death-time-valkyrie" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1309,7 +1311,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1685)</span>
                 </div>
                 <small class="mvp-map">jupe_core</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1685.gif" alt="Vesper Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1685.gif" alt="Vesper Sprite">
                 <div id="timer-vesper" class="timer timer-na">...</div>
                 <small id="death-time-vesper" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1329,7 +1332,8 @@
                     <span class="mvp-duration">(100 min. / ID: 1648)</span>
                 </div>
                 <small class="mvp-map">lhz_dun03</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1648.gif" alt="Whitesmith Harword Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1648.gif" alt="Whitesmith Harword Sprite">
                 <div id="timer-harword" class="timer timer-na">...</div>
                 <small id="death-time-harword" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1349,7 +1353,8 @@
                     <span class="mvp-duration">(720 min. / ID: 1917)</span>
                 </div>
                 <small class="mvp-map">moc_fild22</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1917.gif" alt="Wounded Morocc Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1917.gif" alt="Wounded Morocc Sprite">
                 <div id="timer-morocc" class="timer timer-na">...</div>
                 <small id="death-time-morocc" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1369,7 +1374,8 @@
                     <span class="mvp-duration">(120 min. / ID: 1658)</span>
                 </div>
                 <small class="mvp-map">lhz_dun02</small>
-                <img class="mvp-sprite" src="https://file5s.ratemyserver.net/mobs/1658.gif" alt="Ygnizem Sprite">
+                 <!-- --- 🎨 Updated image path --- -->
+                <img class="mvp-sprite" src="images/1658.gif" alt="Ygnizem Sprite">
                 <div id="timer-ygnizem" class="timer timer-na">...</div>
                 <small id="death-time-ygnizem" class="mvp-death-time">&nbsp;</small>
             </div>
@@ -1441,7 +1447,6 @@
             const nowInMs = new Date().getTime();
             const respawnTimeInMs = nowInMs + (respawnSeconds * 1000);
 
-            // ส่งข้อมูลเวลาเกิดใหม่ (เป็นตัวเลข) ขึ้นไปเก็บที่ Firebase
             mvpRef.child(mvpName).set({
                 respawnAt: respawnTimeInMs
             });
@@ -1508,30 +1513,25 @@
         
         // 5. (ส่วนอ่าน) กลไกการ Sync ข้อมูล
         let currentMvpData = null;
-        // --- 🎨 4. เพิ่มตัวแปรสำหรับสถานะเสียง และ state ของ timer ---
-        let isSoundEnabled = localStorage.getItem('mvpTimerSoundEnabled') === 'true'; // Load preference
-        let mvpStates = {}; // To track previous timer states
+        let isSoundEnabled = localStorage.getItem('mvpTimerSoundEnabled') === 'true'; 
+        let mvpStates = {}; 
         const alertSound = document.getElementById('alert-sound');
         const soundToggleButton = document.getElementById('sound-toggle');
         
-        // --- 🎨 5. Function to update toggle button appearance ---
         function updateSoundToggleIcon() {
             if (soundToggleButton) {
                 soundToggleButton.textContent = isSoundEnabled ? '📢' : '🔇';
             }
         }
 
-        // --- 🎨 6. Set initial icon and add click listener ---
-        updateSoundToggleIcon(); // Set icon on load
+        updateSoundToggleIcon(); 
         if (soundToggleButton) {
             soundToggleButton.addEventListener('click', () => {
                 isSoundEnabled = !isSoundEnabled;
-                localStorage.setItem('mvpTimerSoundEnabled', isSoundEnabled); // Save preference
+                localStorage.setItem('mvpTimerSoundEnabled', isSoundEnabled); 
                 updateSoundToggleIcon();
-                // Play a short sound on enable to confirm, requires user interaction
                 if (isSoundEnabled && alertSound) {
                     alertSound.play().catch(e => console.log("Audio play failed (interaction needed or file missing)."));
-                    // We might need to pause it immediately if the alert sound is long
                     setTimeout(() => { if(alertSound && !alertSound.paused) alertSound.pause(); alertSound.currentTime = 0; }, 500); 
                 }
             });
@@ -1560,7 +1560,6 @@
 
         function updateAllTimers(data) {
             const now = new Date().getTime();
-            // --- 🎨 7. Object to store the new states for this tick ---
             let newStates = {}; 
 
             let mvpsToSort = mvpList.map(mvpData => {
@@ -1582,22 +1581,17 @@
                 };
             });
 
-            // จัดเรียง Array
             mvpsToSort.sort((a, b) => a.sortValue - b.sortValue);
             
             mvpsToSort.forEach(mvp => {
-                if (!mvp || !mvp.element) {
-                    return; 
-                }
+                if (!mvp || !mvp.element) { return; }
                 
                 const isTimerBoss = mvp.seconds > 0; 
-                let currentState = 'na'; // Default state
+                let currentState = 'na'; 
 
                 if (isTimerBoss) {
                     if (!mvp.timerElement || !mvp.deathTimeElement) {
-                         if (mvpContainer.contains(mvp.element)) {
-                           mvpContainer.appendChild(mvp.element);
-                         }
+                         if (mvpContainer.contains(mvp.element)) { mvpContainer.appendChild(mvp.element); }
                          return; 
                     }
 
@@ -1608,27 +1602,21 @@
                         const timeLeftMs = respawnTime - now;
 
                         if (timeLeftMs > 0) {
-                            // Phase 1
                             mvp.timerElement.textContent = formatTime(timeLeftMs);
                             mvp.timerElement.className = 'timer timer-normal';
                             currentState = 'normal';
                         } else if (timeLeftMs > -LATE_WINDOW_MS) {
-                            // Phase 2
                             const windowTimeLeftMs = LATE_WINDOW_MS + timeLeftMs;
                             mvp.timerElement.textContent = formatTime(windowTimeLeftMs);
                             mvp.timerElement.className = 'timer timer-window';
                             currentState = 'window';
 
-                            // --- 🎨 8. Check for transition and play sound ---
                             const previousState = mvpStates[mvp.name];
                             if (previousState === 'normal' && currentState === 'window' && isSoundEnabled && alertSound) {
-                                alertSound.currentTime = 0; // Rewind before playing
+                                alertSound.currentTime = 0; 
                                 alertSound.play().catch(e => console.log("Alert play failed:", e));
                             }
-                            // --- End sound logic ---
-
                         } else {
-                            // Phase 3
                             const overdueMs = Math.abs(timeLeftMs) - LATE_WINDOW_MS;
                             mvp.timerElement.textContent = formatTime(overdueMs); 
                             mvp.timerElement.className = 'timer timer-overdue';
@@ -1639,50 +1627,38 @@
                         mvp.deathTimeElement.textContent = formatDeathTime(deathTimeMs);
 
                     } else {
-                        // N/A State
                         mvp.timerElement.textContent = "N/A";
                         mvp.timerElement.className = 'timer timer-na';
                         mvp.deathTimeElement.innerHTML = "&nbsp;"; 
                         currentState = 'na';
                     }
                 } else {
-                    // Non-timer bosses (Quest/Instance)
-                    if (mvp.timerElement) {
+                    if (mvp.timerElement) { 
                          const mvpData = mvpList.find(item => item.id === mvp.name);
-                         const displayText = mvpData && mvpData.id_num === 2022 ? "Instance" : "Quest / Summon";
+                         const displayText = (mvpData && mvpData.id_num === 2022) ? "Instance" : "Quest / Summon";
                          mvp.timerElement.textContent = displayText;
                          mvp.timerElement.className = 'timer timer-na'; 
                     }
-                    if (mvp.deathTimeElement) {
-                        mvp.deathTimeElement.innerHTML = "&nbsp;"; 
-                    }
-                    currentState = 'na'; // Assign state even for non-timer bosses
+                    if (mvp.deathTimeElement) { mvp.deathTimeElement.innerHTML = "&nbsp;"; }
+                    currentState = 'na';
                 }
                 
-                // --- 🎨 9. Store the current state for the next tick ---
                 newStates[mvp.name] = currentState;
 
-                // Always append to reorder
-                if (mvpContainer.contains(mvp.element)) {
-                    mvpContainer.appendChild(mvp.element);
-                }
+                if (mvpContainer.contains(mvp.element)) { mvpContainer.appendChild(mvp.element); }
             });
-            // --- 🎨 10. Update the global state after the loop ---
             mvpStates = newStates;
         }
 
-        // 7. ฟังก์ชันแปลงตัวเลข (ms) ให้เป็น H:M:S
         function formatTime(ms) {
             let totalSeconds = Math.floor(ms / 1000);
             let hours = Math.floor(totalSeconds / 3600);
             totalSeconds %= 3600;
             let minutes = Math.floor(totalSeconds / 60);
             let seconds = totalSeconds % 60;
-
             hours = (hours < 10) ? "0" + hours : hours;
             minutes = (minutes < 10) ? "0" + minutes : minutes;
             seconds = (seconds < 10) ? "0" + seconds : seconds;
-
             return hours + ":" + minutes + ":" + seconds;
         }
 
@@ -1696,14 +1672,11 @@
             return `ตาย: ${D}/${M} ${h}:${m}:${s}`;
         }
 
-
         /* --- JavaScript สำหรับ Modal แก้ไข --- */
-        
         const editModal = document.getElementById("editModal");
         const editCloseBtn = document.getElementById("edit-close-btn");
         const editInput = document.getElementById("edit-datetime");
         const saveEditBtn = document.getElementById("save-edit-btn");
-        
         let currentEditData = null; 
 
         function openEditModal(mvpName, respawnSeconds) {
@@ -1714,37 +1687,18 @@
 
         function handleSaveEdit() {
             if (!currentEditData) return;
-            
             const newDeathTimeString = editInput.value;
-            if (!newDeathTimeString) {
-                console.warn("No death time selected.");
-                return;
-            }
-            
+            if (!newDeathTimeString) { console.warn("No death time selected."); return; }
             const newDeathTimeInMs = new Date(newDeathTimeString).getTime();
             const respawnTimeInMs = newDeathTimeInMs + (currentEditData.seconds * 1000);
-            
-            mvpRef.child(currentEditData.name).set({
-                respawnAt: respawnTimeInMs
-            });
-            
+            mvpRef.child(currentEditData.name).set({ respawnAt: respawnTimeInMs });
             editModal.style.display = "none";
             currentEditData = null;
         }
 
-        if (saveEditBtn) {
-            saveEditBtn.onclick = handleSaveEdit;
-        }
-        if (editCloseBtn) {
-            editCloseBtn.onclick = function() {
-                editModal.style.display = "none";
-            }
-        }
-        window.onclick = function(event) {
-            if (event.target == editModal) {
-                editModal.style.display = "none";
-            }
-        }
+        if (saveEditBtn) { saveEditBtn.onclick = handleSaveEdit; }
+        if (editCloseBtn) { editCloseBtn.onclick = function() { editModal.style.display = "none"; } }
+        window.onclick = function(event) { if (event.target == editModal) { editModal.style.display = "none"; } }
         
         function formatDateForInput(date) {
             const Y = date.getFullYear();
@@ -1755,31 +1709,22 @@
             return `${Y}-${M}-${D}T${h}:${m}`;
         }
 
-
         /* --- JavaScript สำหรับตัวกรอง (Filter) --- */
-        
         const filterContainer = document.getElementById("filter-container");
-          
         if (filterContainer) {
-            
             const sortedMvpListForFilter = [...mvpList].sort((a, b) => a.name.localeCompare(b.name));
-
             sortedMvpListForFilter.forEach(mvpData => {
                 const displayName = mvpData.name;
-
                 const filterItem = document.createElement('div');
                 filterItem.className = 'filter-item';
-                
                 const input = document.createElement('input');
                 input.type = 'checkbox';
                 input.id = 'filter-' + mvpData.id;
                 input.value = mvpData.id;
                 input.checked = true; 
-                
                 const label = document.createElement('label');
                 label.htmlFor = 'filter-' + mvpData.id;
                 label.textContent = displayName;
-                
                 filterItem.appendChild(input);
                 filterItem.appendChild(label);
                 filterContainer.appendChild(filterItem);
@@ -1790,45 +1735,27 @@
                     const mvpId = event.target.value;
                     const isChecked = event.target.checked;
                     const cardToShowHide = document.getElementById('card-' + mvpId);
-                    
-                    if (cardToShowHide) {
-                        cardToShowHide.style.display = isChecked ? 'flex' : 'none';
-                    }
+                    if (cardToShowHide) { cardToShowHide.style.display = isChecked ? 'flex' : 'none'; }
                 }
             });
             
             /* --- JS for Filter Buttons --- */
             const selectAllBtn = document.getElementById('select-all-btn');
             const deselectAllBtn = document.getElementById('deselect-all-btn');
-            
             function setAllCheckboxes(checkedState) {
                 const checkboxes = filterContainer.querySelectorAll('input[type="checkbox"]');
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = checkedState;
-                    
                     const mvpId = checkbox.value;
                     const cardToShowHide = document.getElementById('card-' + mvpId);
-                    if (cardToShowHide) {
-                        cardToShowHide.style.display = checkedState ? 'flex' : 'none';
-                    }
+                    if (cardToShowHide) { cardToShowHide.style.display = checkedState ? 'flex' : 'none'; }
                 });
             }
-
-            if (selectAllBtn) {
-                selectAllBtn.onclick = function() {
-                    setAllCheckboxes(true);
-                }
-            }
-
-            if (deselectAllBtn) {
-                deselectAllBtn.onclick = function() {
-                    setAllCheckboxes(false);
-                }
-            }
+            if (selectAllBtn) { selectAllBtn.onclick = function() { setAllCheckboxes(true); } }
+            if (deselectAllBtn) { deselectAllBtn.onclick = function() { setAllCheckboxes(false); } }
             /* --- End new JS --- */
         }
         /* --- จบ JS Filter --- */
-
     </script>
 </body>
 </html>
