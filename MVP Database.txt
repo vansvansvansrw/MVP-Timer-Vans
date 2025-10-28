@@ -1,0 +1,263 @@
+Amon Ra   (AMON_RA)   Mob-ID#1511	moc_pryd06
+- Inside Pyramid B2
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1511.gif
+ 
+Assassin Cross Eremes   (B_EREMES)   Mob-ID#1647	lhz_dun03
+- Bio Laboratory F3
+ + 1x / 100~130 min
+ https://file5s.ratemyserver.net/mobs/1647.gif
+ 
+Atroce   (ATROCE)   Mob-ID#1785	ra_fild02
+- Od Canyon
+ + 1x / 240~250 min
+ra_fild03
+- The Plain of Ida
+ + 1x / 180~190 min
+ra_fild04
+- Audhumbla Grassland
+ + 1x / 300~310 min
+ve_fild01
+- Veins Field
+ + 1x / 180~190 min
+ve_fild02
+- Veins Field
+ + 1x / 360~370 min
+ https://file5s.ratemyserver.net/mobs/1785.gif
+ 
+ Bacsojin / White Lady   (BACSOJIN_)   Mob-ID#1630	lou_dun03
+- Suei Long Gon
+ + 1x / 117~127 min
+ https://file5s.ratemyserver.net/mobs/1630.gif
+ 
+ Baphomet   (BAPHOMET)   Mob-ID#1039	prt_maze03
+- Labyrinth Forest F3
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1039.gif
+ 
+Boitata   (BOITATA)   Mob-ID#2068	bra_dun02
+- Brasilis Dungeon F2, Beyond the Waterfall
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/2068.gif
+ 
+ Dark Lord   (DARK_LORD)   Mob-ID#1272	gl_chyard
+- Glast Heim Churchyard
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1272.gif
+ 
+ Detale / Detardeurus   (DETALE)   Mob-ID#1719	abyss_03
+- Abyss Lakes Underground Cave F3
+ + 1x / 180~190 min
+ https://file5s.ratemyserver.net/mobs/1719.gif
+ 
+ Doppelganger   (DOPPELGANGER)   Mob-ID#1046	gef_dun02
+- Geffen Dungeon F3
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1046.gif
+ 
+ Dracula   (DRACULA)   Mob-ID#1389	gef_dun01
+- Geffen Dungeon F2
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1389.gif
+ 
+ Drake   (DRAKE)   Mob-ID#1112	treasure02
+- Sunken Ship F2
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1112.gif
+ 
+ Eddga   (EDDGA)   Mob-ID#1115	pay_fild11
+- Payon Forest
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1115.gif
+ 
+ Evil Snake Lord   (DARK_SNAKE_LORD)   Mob-ID#1418	gon_dun03
+- Arcadia
+ + 1x / 94~104 min
+ https://file5s.ratemyserver.net/mobs/1418.gif
+ 
+ Fallen Bishop / Fallen Bishop Hibram   (FALLINGBISHOP)   Mob-ID#1871	abbey02
+- Cursed Monastery F2
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1871.gif
+ 
+ Garm / Hatii   (GARM)   Mob-ID#1252	xmas_fild01
+- Lutie Field
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1252.gif
+ 
+ Gloom Under Night   (GLOOMUNDERNIGHT)   Mob-ID#1768	ra_san05
+- Holy Ground F5
+ + 1x / 300~310 min
+ https://file5s.ratemyserver.net/mobs/1768.gif
+ 
+ Gold Queen Scaraba (Re-Stats)   (I_QUEEN_SCARABA)   Mob-ID#2165	dic_dun03
+- Skarava hall
+ + 1x / 120 min
+ https://file5s.ratemyserver.net/mobs/2165.gif
+ 
+Golden Thief Bug   (GOLDEN_BUG)   Mob-ID#1086	prt_sewb4
+- Prontera Culvert F4
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1086.gif
+ 
+ Gopinich   (GOPINICH)   Mob-ID#1885	mosk_dun03
+- Dremuci Forest
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1885.gif
+ 
+ High Priest Magaleta / Margaretha   (B_MAGALETA)   Mob-ID#1649	lhz_dun03
+- Bio Laboratory F3
+ + 1x / 100~130 min
+ https://file5s.ratemyserver.net/mobs/1649.gif
+ 
+ High Wizard Katrinn / Kathryne   (B_KATRINN)   Mob-ID#1651	lhz_dun03
+- Bio Laboratory F3
+ + 1x / 100~130 min
+ https://file5s.ratemyserver.net/mobs/1651.gif
+ 
+ Ifrit   (IFRIT)   Mob-ID#1832	thor_v03
+- Thors Volcano Dungeon F3
+ + 1x / 660~670 min
+ https://file5s.ratemyserver.net/mobs/1832.gif
+ 
+ Incantation Samurai / Samurai Specter   (INCANTATION_SAMURAI)   Mob-ID#1492	ama_dun03
+- Amatsu Underground Shrine
+ + 1x / 91~101 min
+ https://file5s.ratemyserver.net/mobs/1492.gif
+ 
+ Kiel D-01   (KIEL_)   Mob-ID#1734	kh_dun02
+- Robot Factory Level 2
+ + 1x / 120~180 min
+ https://file5s.ratemyserver.net/mobs/1734.gif
+ 
+ Knight of Windstorm / Stormy Knight   (KNIGHT_OF_WINDSTORM)   Mob-ID#1251	xmas_dun02
+- Toy Monitoring Room
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1251.gif
+ 
+ Ktullanux   (KTULLANUX)   Mob-ID#1779	ice_dun03(1)
+- Ice Cave F3
+https://file5s.ratemyserver.net/mobs/1779.gif
+
+Lady Tanee   (LADY_TANEE)   Mob-ID#1688	ayo_dun02
+- Inside Ancient Shrine
+ + 1x / 420~430 min
+ https://file5s.ratemyserver.net/mobs/1688.gif
+ 
+ Leak (Re-Stats)   (LEAK)   Mob-ID#2156	dew_dun01
+- Dewata Dungeon 01, Volcanic Island of Krakatoa
+ + 1x / 120 min
+ https://file5s.ratemyserver.net/mobs/2156.gif
+ 
+Lord Knight Seyren   (B_SEYREN)   Mob-ID#1646	lhz_dun03
+- Bio Laboratory F3
+ + 1x / 100~130 min
+ https://file5s.ratemyserver.net/mobs/1646.gif
+ 
+ Lord of Death / Lord of the Dead   (LORD_OF_DEATH)   Mob-ID#1373	niflheim
+- Nifflheim, Realm of the Dead
+ + 1x / 133 min
+ https://file5s.ratemyserver.net/mobs/1373.gif
+ 
+ Maya   (MAYA)   Mob-ID#1147	anthell02
+- Ant Hell F2
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1147.gif
+ 
+ Mistress   (MISTRESS)   Mob-ID#1059	mjolnir_04
+- Mt.Mjolnir
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1059.gif
+ 
+ Moonlight Flower   (MOONLIGHT)   Mob-ID#1150	pay_dun04
+- Payon Cave F5
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1150.gif
+ 
+ Nidhoggr's Shadow   (S_NYDHOG)   Mob-ID#2022	2@nyd(1)
+- Nidhoggur's Nest Lv 2
+https://file5s.ratemyserver.net/mobs/2022.gif
+
+Orc Hero   (ORK_HERO)   Mob-ID#1087	gef_fild02
+- Geffen Field
+ + 1x / 1440~1450 min
+gef_fild14
+- West Orc Village
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1087.gif
+ 
+ Orc Lord   (ORC_LORD)   Mob-ID#1190	gef_fild10
+- Geffen Field
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1190.gif
+ 
+ Osiris   (OSIRIS)   Mob-ID#1038	moc_pryd04
+- Inside Pyramid F4
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1038.gif
+ 
+ Pharaoh   (PHARAOH)   Mob-ID#1157	in_sphinx5
+- Sphinx F5
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1157.gif
+ 
+ Phreeoni   (PHREEONI)   Mob-ID#1159	moc_fild17
+- Sograt Desert
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1159.gif
+ 
+ Queen Scaraba / Scaraba Queen (Re-Stats)   (QUEEN_SCARABA)   Mob-ID#2087	dic_dun02
+- Scaraba Hole 02, Scaraba Hall
+ + 1x / 120 min
+ https://file5s.ratemyserver.net/mobs/2087.gif
+ 
+RSX 0806 / RSX-0806   (RSX_0806)   Mob-ID#1623	ein_dun02
+- Einbech Mine Dungeon 2F
+ + 1x / 125~135 min
+ https://file5s.ratemyserver.net/mobs/1623.gif
+ 
+ Sniper Shecil / Sniper Cecil   (B_SHECIL)   Mob-ID#1650	lhz_dun03
+- Bio Laboratory F3
+ + 1x / 100~130 min
+ https://file5s.ratemyserver.net/mobs/1650.gif
+ 
+ Tao Gunka   (TAO_GUNKA)   Mob-ID#1583	beach_dun
+- Karu, the West cave
+ + 1x / 300~310 min
+ https://file5s.ratemyserver.net/mobs/1583.gif
+ 
+ Thanatos / Memory of Thanatos   (THANATOS)   Mob-ID#1708	thana_boss(1)
+- The top of The Thanatos Tower
+https://file5s.ratemyserver.net/mobs/1708.gif
+
+Turtle General   (TURTLE_GENERAL)   Mob-ID#1312	tur_dun04
+- Turtle Palace
+ + 1x / 60~70 min
+ https://file5s.ratemyserver.net/mobs/1312.gif
+ 
+ Valkyrie Randgris   (RANDGRIS)   Mob-ID#1751	odin_tem03
+- Odin Temple F3
+ + 1x / 480~490 min
+ https://file5s.ratemyserver.net/mobs/1751.gif
+ 
+ Vesper   (APOCALIPS_H)   Mob-ID#1685	jupe_core
+- Juperos Core
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1685.gif
+ 
+ Whitesmith Harword / Mastersmith Howard   (B_HARWORD)   Mob-ID#1648	lhz_dun03
+- Bio Laboratory F3
+ + 1x / 100~130 min
+ https://file5s.ratemyserver.net/mobs/1648.gif
+ 
+ 
+Wounded Morocc   (MOROCC_)   Mob-ID#1917	moc_fild22
+- Morocc Field (Dimensional Gorge)
+ + 1x / 720~780 min
+ https://file5s.ratemyserver.net/mobs/1917.gif
+ 
+ Ygnizem / Egnigem Cenia   (B_YGNIZEM)   Mob-ID#1658	lhz_dun02
+- Bio Laboratory F2
+ + 1x / 120~130 min
+ https://file5s.ratemyserver.net/mobs/1658.gif
+ 

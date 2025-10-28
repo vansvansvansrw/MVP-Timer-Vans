@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ragnarok MVP Timer</title>
-    <!-- --- Script ตรวจจับ Mobile --- -->
-    <script>
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        if (isMobile) {
-            window.location.replace('index_mobile.html'); // Ensure mobile.html exists
-        }
-    </script>
     <style>
 		/* --- CSS for Version Toggle Link (Top Left) --- */
         .top-left-controls {
@@ -33,10 +26,11 @@
             background-color: rgba(102, 102, 102, 0.7); /* Darken background on hover */
         }
         /* --- End Version Toggle CSS --- */
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             padding: 20px;
-            padding-top: 50px; /* Add padding top for sound toggle */
+            padding-top: 50px; /* Add padding top for controls */
             background: #212121;
             color: #e0e0e0;
             max-width: 1100px;
@@ -46,16 +40,25 @@
             color: #818cf8;
             text-align: center;
         }
-        #sound-toggle {
+        /* --- Controls Container --- */
+        .top-controls {
             position: absolute;
             top: 15px;
             right: 20px;
+            display: flex; /* Arrange buttons side-by-side */
+            align-items: center; /* Vertically align items */
+            gap: 15px; /* Space between buttons */
+            z-index: 10;
+        }
+        #sound-toggle,
+        #sort-now-btn { /* Style both buttons */
             font-size: 1.8em;
             cursor: pointer;
             user-select: none; /* Prevent text selection */
         }
+        /* --- End Controls CSS --- */
 
-        /* --- CSS for Search Box --- */
+        /* --- Search Box CSS --- */
         .search-container {
             position: relative;
             margin-bottom: 20px;
@@ -177,14 +180,14 @@
 
         /* --- Adjust Button Group CSS --- */
         .button-group {
-            display: flex; /* Use flexbox for rows */
-            flex-direction: column; /* Stack rows vertically */
+            display: flex;
+            flex-direction: column;
             gap: 8px;
             margin-top: 10px;
         }
         .button-row {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two equal columns for Dead/Clear */
+            grid-template-columns: 1fr 1fr;
             gap: 8px;
         }
         /* --- End Button Change CSS --- */
@@ -198,29 +201,27 @@
             border: none;
             border-radius: 5px;
             transition: background-color 0.2s;
-            grid-column: span 2; /* Default span, overridden below */
+            grid-column: span 2; /* Default span */
         }
 
-        /* ปุ่ม "ตาย" (แดง) */
         .dead-btn {
             background-color: #ef4444;
-            grid-column: 1 / 2; /* Place in first column */
+            grid-column: 1 / 2;
         }
         .dead-btn:hover { background-color: #dc2626; }
 
         /* --- NEW CSS for Clear Button --- */
         .clear-btn {
-            background-color: #6b7280; /* Grey color */
-            grid-column: 2 / 3; /* Place in second column */
+            background-color: #6b7280;
+            grid-column: 2 / 3;
         }
         .clear-btn:hover { background-color: #4b5563; }
         /* --- End Clear Button CSS --- */
 
 
-        /* ปุ่ม "แก้ไข" (น้ำเงิน) */
         .edit-btn {
             background-color: #3b82f6;
-            grid-column: 1 / 3; /* Make Edit button span both columns */
+            grid-column: 1 / 3;
         }
         .edit-btn:hover { background-color: #2563eb; }
 
@@ -274,11 +275,15 @@
 	<!-- --- Version Toggle Link --- -->
     <div class="top-left-controls">
         <div class="version-toggle-link">
-             <a href="index_v2.html">ไป V2 (Manual Sort)</a>
+            <a href="index.html">กลับ V1 (Auto Sort)</a>
         </div>
     </div>
 
-    <div id="sound-toggle">📢</div>
+    <!-- --- Add Container for Top Controls --- -->
+    <div class="top-controls">
+        <div id="sort-now-btn">🔄</div>
+        <div id="sound-toggle">📢</div>
+    </div>
     <audio id="alert-sound" src="mvpalert2.mp3" preload="auto"></audio>
 
     <h1>Ragnarok MVP Timer (Sync)</h1>
@@ -293,7 +298,6 @@
 
         <!-- Amon Ra -->
         <div class="mvp" id="card-amon_ra">
-             <!-- BUG FIX: Restore outer div -->
              <div>
                 <div class="mvp-header">
                     <span class="mvp-name">Amon Ra</span>
@@ -305,7 +309,6 @@
                 <small id="death-time-amon_ra" class="mvp-death-time">&nbsp;</small>
             </div>
             <div>
-                 <!-- Apply new button structure -->
                 <div class="button-group">
                     <div class="button-row">
                         <button class="dead-btn" onclick="setTimer('amon_ra', 3600)">กดตาย</button>
@@ -969,9 +972,7 @@
                  <div id="timer-ktullanux" class="timer timer-na">Quest / Summon</div>
                  <small id="death-time-ktullanux" class="mvp-death-time">&nbsp;</small>
              </div>
-             <div>
-                 <!-- No buttons needed -->
-             </div>
+             <div> <!-- No buttons needed --> </div>
          </div>
 
           <!-- Lady Tanee -->
@@ -1147,9 +1148,7 @@
                  <div id="timer-nidhoggr" class="timer timer-na">Instance</div>
                  <small id="death-time-nidhoggr" class="mvp-death-time">&nbsp;</small>
              </div>
-             <div>
-                 <!-- No buttons needed -->
-             </div>
+             <div> <!-- No buttons needed --> </div>
          </div>
 
           <!-- Orc Hero (gef_fild02) -->
@@ -1394,9 +1393,7 @@
                  <div id="timer-thanatos" class="timer timer-na">Quest / Summon</div>
                  <small id="death-time-thanatos" class="mvp-death-time">&nbsp;</small>
              </div>
-             <div>
-                 <!-- No buttons needed -->
-             </div>
+             <div> <!-- No buttons needed --> </div>
          </div>
 
           <!-- Turtle General -->
@@ -1538,7 +1535,7 @@
           </div>
 
 
-    </div> <!-- จบ .mvp-container -->
+    </div> <!-- End .mvp-container -->
 
 
     <!-- Filter Section -->
@@ -1576,7 +1573,7 @@
 
     <script>
         // --- JAVASCRIPT ---
-        // (Copied from previous version - includes all features: search, clear button, etc.)
+        // (Includes all features: search, clear button, manual sort button, etc.)
 
         // Firebase Config
         const firebaseConfig = { /* ... same config ... */
@@ -1592,13 +1589,16 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const mvpRef = db.ref('mvp');
+        // --- NEW: Reference for Filter Settings ---
+        const filterSettingsRef = db.ref('settings/filters');
+
         function setTimer(mvpName, respawnSeconds) { /* ... */
             const nowInMs = new Date().getTime();
             const respawnTimeInMs = nowInMs + (respawnSeconds * 1000);
             mvpRef.child(mvpName).set({ respawnAt: respawnTimeInMs });
-        }
+         }
         function clearTimer(mvpName) { /* ... */
-            mvpRef.child(mvpName).remove();
+             mvpRef.child(mvpName).remove();
         }
         const mvpList = [ /* ... same full list ... */
             { id: 'amon_ra', name: 'Amon Ra', seconds: 3600, id_num: 1511 },
@@ -1658,20 +1658,73 @@
             { id: 'ygnizem', name: 'Ygnizem', seconds: 7200, id_num: 1658 }
         ];
         let currentMvpData = null; let isSoundEnabled = localStorage.getItem('mvpTimerSoundEnabled') === 'true'; let mvpStates = {};
+        // --- NEW: Variable to hold loaded filter settings ---
+        let loadedFilterSettings = null;
+        let filtersLoaded = false; // Flag to check if filters have been loaded initially
+
         const alertSound = document.getElementById('alert-sound'); const soundToggleButton = document.getElementById('sound-toggle');
         function updateSoundToggleIcon() { /* ... */ if (soundToggleButton) { soundToggleButton.textContent = isSoundEnabled ? '📢' : '🔇'; } } updateSoundToggleIcon();
         if (soundToggleButton) { soundToggleButton.addEventListener('click', () => { /* ... */ isSoundEnabled = !isSoundEnabled; localStorage.setItem('mvpTimerSoundEnabled', isSoundEnabled); updateSoundToggleIcon(); if (isSoundEnabled && alertSound) { alertSound.play().catch(e => console.log("Audio play failed")); setTimeout(() => { if(alertSound && !alertSound.paused) alertSound.pause(); alertSound.currentTime = 0; }, 500); } }); }
+
+        // Listen for MVP timer data
         mvpRef.on('value', (snapshot) => { currentMvpData = snapshot.val(); }, (error) => { console.error("Firebase read failed: " + error.name); });
-        setInterval(() => { if (currentMvpData !== null) { try { updateAllTimers(currentMvpData); } catch (e) { console.error("Error updating timers:", e); } } }, 1000);
+
+        // --- NEW: Listen for Filter Settings ---
+        filterSettingsRef.on('value', (snapshot) => {
+            loadedFilterSettings = snapshot.val();
+            filtersLoaded = true; // Mark filters as loaded
+            // Update checkboxes and apply filters *after* settings are loaded
+            initializeFiltersAndApply();
+        }, (error) => {
+            console.error("Firebase filter read failed: " + error.name);
+            filtersLoaded = true; // Mark as loaded even on error to allow default init
+            initializeFiltersAndApply(); // Initialize with defaults on error
+        });
+        // --- End Filter Settings Listener ---
+
+
+        setInterval(() => { if (currentMvpData !== null && filtersLoaded) { try { updateAllTimers(currentMvpData); } catch (e) { console.error("Error updating timers:", e); } } }, 1000);
         const LATE_WINDOW_MS = 600000; const mvpContainer = document.getElementById("mvp-list-container");
-        function updateAllTimers(data) { /* ... same combined search/filter/auto-sort logic ... */
+        function updateAllTimers(data) { /* ... same combined search/filter logic as desktop ... */
             const now = new Date().getTime(); let newStates = {};
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             let mvpsToSort = mvpList.map(mvpData => { /* ... */ const mvpName = mvpData.id; const mvpInfo = data ? data[mvpName] : null; let sortValue = Infinity; if (mvpInfo && mvpInfo.respawnAt) { sortValue = mvpInfo.respawnAt; } return { id: mvpName, name: mvpData.name, seconds: mvpData.seconds, sortValue: sortValue, element: document.getElementById('card-' + mvpName), timerElement: document.getElementById('timer-' + mvpName), deathTimeElement: document.getElementById('death-time-' + mvpName) }; });
-            mvpsToSort.sort((a, b) => a.sortValue - b.sortValue);
-            mvpsToSort.forEach(mvp => { if (!mvp || !mvp.element) { return; } const mvpNameLower = mvp.name.toLowerCase(); const matchesSearch = searchTerm === '' || mvpNameLower.includes(searchTerm); const checkbox = document.getElementById('filter-' + mvp.id); const isChecked = checkbox ? checkbox.checked : true; mvp.element.style.display = (matchesSearch && isChecked) ? 'flex' : 'none'; const isTimerBoss = mvp.seconds > 0; let currentState = 'na'; if (isTimerBoss) { if (!mvp.timerElement || !mvp.deathTimeElement) { if (mvpContainer.contains(mvp.element)) { mvpContainer.appendChild(mvp.element); } return; } const mvpInfo = data ? data[mvp.id] : null; if (mvpInfo && mvpInfo.respawnAt) { const respawnTime = mvpInfo.respawnAt; const timeLeftMs = respawnTime - now; if (timeLeftMs > 0) { mvp.timerElement.textContent = formatTime(timeLeftMs); mvp.timerElement.className = 'timer timer-normal'; currentState = 'normal'; } else if (timeLeftMs > -LATE_WINDOW_MS) { const windowTimeLeftMs = LATE_WINDOW_MS + timeLeftMs; mvp.timerElement.textContent = formatTime(windowTimeLeftMs); mvp.timerElement.className = 'timer timer-window'; currentState = 'window'; const previousState = mvpStates[mvp.id]; if (previousState === 'normal' && currentState === 'window' && isSoundEnabled && alertSound) { alertSound.currentTime = 0; alertSound.play().catch(e => console.log("Alert play failed:", e)); } } else { const overdueMs = Math.abs(timeLeftMs) - LATE_WINDOW_MS; mvp.timerElement.textContent = formatTime(overdueMs); mvp.timerElement.className = 'timer timer-overdue'; currentState = 'overdue'; } const deathTimeMs = respawnTime - (mvp.seconds * 1000); mvp.deathTimeElement.textContent = formatDeathTime(deathTimeMs); } else { mvp.timerElement.textContent = "N/A"; mvp.timerElement.className = 'timer timer-na'; mvp.deathTimeElement.innerHTML = "&nbsp;"; currentState = 'na'; } } else { if (mvp.timerElement) { const mvpData = mvpList.find(item => item.id === mvp.id); const displayText = (mvpData && mvpData.id_num === 2022) ? "Instance" : "Quest / Summon"; mvp.timerElement.textContent = displayText; mvp.timerElement.className = 'timer timer-na'; } if (mvp.deathTimeElement) { mvp.deathTimeElement.innerHTML = "&nbsp;"; } currentState = 'na'; } newStates[mvp.id] = currentState; if (mvp.element.style.display !== 'none' && mvpContainer.contains(mvp.element)) { mvpContainer.appendChild(mvp.element); } });
+            // --- REMOVED Automatic Sort ---
+            // mvpsToSort.sort((a, b) => a.sortValue - b.sortValue);
+            mvpsToSort.forEach(mvp => { if (!mvp || !mvp.element) { return; } const mvpNameLower = mvp.name.toLowerCase(); const matchesSearch = searchTerm === '' || mvpNameLower.includes(searchTerm); const checkbox = document.getElementById('filter-' + mvp.id); const isChecked = checkbox ? checkbox.checked : true; mvp.element.style.display = (matchesSearch && isChecked) ? 'flex' : 'none'; const isTimerBoss = mvp.seconds > 0; let currentState = 'na'; if (isTimerBoss) { if (!mvp.timerElement || !mvp.deathTimeElement) { /* --- REMOVED appendChild here --- */ return; } const mvpInfo = data ? data[mvp.id] : null; if (mvpInfo && mvpInfo.respawnAt) { const respawnTime = mvpInfo.respawnAt; const timeLeftMs = respawnTime - now; if (timeLeftMs > 0) { mvp.timerElement.textContent = formatTime(timeLeftMs); mvp.timerElement.className = 'timer timer-normal'; currentState = 'normal'; } else if (timeLeftMs > -LATE_WINDOW_MS) { const windowTimeLeftMs = LATE_WINDOW_MS + timeLeftMs; mvp.timerElement.textContent = formatTime(windowTimeLeftMs); mvp.timerElement.className = 'timer timer-window'; currentState = 'window'; const previousState = mvpStates[mvp.id]; if (previousState === 'normal' && currentState === 'window' && isSoundEnabled && alertSound) { alertSound.currentTime = 0; alertSound.play().catch(e => console.log("Alert play failed:", e)); } } else { const overdueMs = Math.abs(timeLeftMs) - LATE_WINDOW_MS; mvp.timerElement.textContent = formatTime(overdueMs); mvp.timerElement.className = 'timer timer-overdue'; currentState = 'overdue'; } const deathTimeMs = respawnTime - (mvp.seconds * 1000); mvp.deathTimeElement.textContent = formatDeathTime(deathTimeMs); } else { mvp.timerElement.textContent = "N/A"; mvp.timerElement.className = 'timer timer-na'; mvp.deathTimeElement.innerHTML = "&nbsp;"; currentState = 'na'; } } else { if (mvp.timerElement) { const mvpData = mvpList.find(item => item.id === mvp.id); const displayText = (mvpData && mvpData.id_num === 2022) ? "Instance" : "Quest / Summon"; mvp.timerElement.textContent = displayText; mvp.timerElement.className = 'timer timer-na'; } if (mvp.deathTimeElement) { mvp.deathTimeElement.innerHTML = "&nbsp;"; } currentState = 'na'; } newStates[mvp.id] = currentState; /* --- REMOVED appendChild here --- */ });
             mvpStates = newStates;
+         }
+        // --- NEW Function for Manual Sort ---
+        function sortMvpsNow() {
+            if (currentMvpData === null && !filtersLoaded) return; // Don't sort if data/filters not ready
+
+            let mvpsToSort = mvpList.map(mvpData => {
+                 const mvpName = mvpData.id;
+                 const mvpInfo = currentMvpData ? currentMvpData[mvpName] : null;
+                 let sortValue = Infinity;
+                 if (mvpInfo && mvpInfo.respawnAt) { sortValue = mvpInfo.respawnAt; }
+                 return {
+                     id: mvpName,
+                     sortValue: sortValue,
+                     element: document.getElementById('card-' + mvpName)
+                 };
+            });
+
+            mvpsToSort.sort((a, b) => a.sortValue - b.sortValue);
+
+            // Re-append ALL elements (visible or not) in the new sorted order
+            mvpsToSort.forEach(mvp => {
+                 if (mvp.element && mvpContainer.contains(mvp.element)) {
+                     mvpContainer.appendChild(mvp.element);
+                 }
+            });
+            // Re-apply filters to hide non-matching/unchecked items after sorting
+            if (typeof applyFilters === 'function') {
+                 applyFilters();
+            }
         }
+        // --- End Manual Sort Function ---
+
         function formatTime(ms) { /* ... */ let totalSeconds = Math.floor(ms / 1000); let hours = Math.floor(totalSeconds / 3600); totalSeconds %= 3600; let minutes = Math.floor(totalSeconds / 60); let seconds = totalSeconds % 60; hours = (hours < 10) ? "0" + hours : hours; minutes = (minutes < 10) ? "0" + minutes : minutes; seconds = (seconds < 10) ? "0" + seconds : seconds; return `${hours}:${minutes}:${seconds}`; }
         function formatDeathTime(ms) { /* ... */ const d = new Date(ms); const D = d.getDate().toString().padStart(2, '0'); const M = (d.getMonth() + 1).toString().padStart(2, '0'); const h = d.getHours().toString().padStart(2, '0'); const m = d.getMinutes().toString().padStart(2, '0'); const s = d.getSeconds().toString().padStart(2, '0'); return `ตาย: ${D}/${M} ${h}:${m}:${s}`; }
         function formatDateForInput(date) { /* ... */ const Y = date.getFullYear(); const M = (date.getMonth() + 1).toString().padStart(2, '0'); const D = date.getDate().toString().padStart(2, '0'); const h = date.getHours().toString().padStart(2, '0'); const m = date.getMinutes().toString().padStart(2, '0'); return `${Y}-${M}-${D}T${h}:${m}`; }
@@ -1680,138 +1733,105 @@
         function handleSaveEdit() { /* ... */ if (!currentEditData) return; const newDeathTimeString = editInput.value; if (!newDeathTimeString) { console.warn("No death time selected."); return; } const newDeathTimeInMs = new Date(newDeathTimeString).getTime(); const respawnTimeInMs = newDeathTimeInMs + (currentEditData.seconds * 1000); mvpRef.child(currentEditData.name).set({ respawnAt: respawnTimeInMs }); editModal.style.display = "none"; currentEditData = null; }
         if (saveEditBtn) { saveEditBtn.onclick = handleSaveEdit; } if (editCloseBtn) { editCloseBtn.onclick = function() { editModal.style.display = "none"; } } window.onclick = function(event) { if (event.target == editModal) { editModal.style.display = "none"; } }
         const filterContainer = document.getElementById("filter-container"); const searchInput = document.getElementById('search-input'); const clearSearchBtn = document.getElementById('clear-search-btn');
+        // --- Add Sort Button Listener ---
+        const sortNowButton = document.getElementById('sort-now-btn');
+        if (sortNowButton) {
+            sortNowButton.addEventListener('click', sortMvpsNow);
+        }
+        // --- End Sort Button Listener ---
 
-        // --- Filter Logic ---
-        let applyFilters; // Declare applyFilters in a broader scope
-        const filtersRef = db.ref('filters'); // --- 1. Reference to filter data in Firebase ---
+        let applyFilters; // Declare applyFilters globally
 
-        if (filterContainer && searchInput && clearSearchBtn) {
+        // --- NEW: Function to initialize filters AFTER settings are loaded ---
+        function initializeFiltersAndApply() {
+            if (!filterContainer || !searchInput || !clearSearchBtn) return; // Exit if elements not ready
+
+            // Clear previous checkboxes if any
+            filterContainer.innerHTML = '';
+
             const sortedMvpListForFilter = [...mvpList].sort((a, b) => a.name.localeCompare(b.name));
-            let initialFiltersLoaded = false; // --- 2. Flag to track initial load ---
-            let currentFilterState = {}; // --- 3. Variable to hold current filter state ---
 
-            // --- 4. Function to save filter state to Firebase ---
-            function saveFiltersToFirebase() {
-                const checkboxes = filterContainer.querySelectorAll('input[type="checkbox"]');
-                const filtersToSave = {};
-                checkboxes.forEach(cb => {
-                    filtersToSave[cb.value] = cb.checked; // Store boolean state
-                });
-                filtersRef.set(filtersToSave); // Overwrite filters in Firebase
-                currentFilterState = filtersToSave; // Update local state
-            }
+            sortedMvpListForFilter.forEach(mvpData => {
+                const displayName = mvpData.name;
+                const filterItem = document.createElement('div');
+                filterItem.className = 'filter-item';
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.id = 'filter-' + mvpData.id;
+                input.value = mvpData.id;
+                // --- Set checked state based on loaded settings ---
+                input.checked = (loadedFilterSettings && loadedFilterSettings[mvpData.id] !== undefined)
+                                ? loadedFilterSettings[mvpData.id] // Use saved value
+                                : true; // Default to true
+                // --- End checked state logic ---
+                const label = document.createElement('label');
+                label.htmlFor = 'filter-' + mvpData.id;
+                label.textContent = displayName;
+                filterItem.appendChild(input);
+                filterItem.appendChild(label);
+                filterContainer.appendChild(filterItem);
+            });
 
-            // --- 5. Function to apply filters to the UI ---
+            // --- Define applyFilters ---
             applyFilters = function() {
-                 if (!initialFiltersLoaded) return; // Don't apply filters until loaded
+                 if (!filtersLoaded) return; // Don't apply if not loaded
 
                  const searchTerm = searchInput.value.toLowerCase();
+                 const checkboxes = filterContainer.querySelectorAll('input[type="checkbox"]');
+                 const checkedMvps = new Set();
+                 const currentFilterState = {}; // Object to save
+
+                 checkboxes.forEach(cb => {
+                     const isChecked = cb.checked;
+                     checkedMvps.add(cb.value);
+                     currentFilterState[cb.value] = isChecked;
+                 });
+
+                 // --- Save state to Firebase ---
+                 filterSettingsRef.set(currentFilterState);
+                 // --- End save logic ---
 
                  mvpList.forEach(mvpData => {
                      const card = document.getElementById('card-' + mvpData.id);
                      if (card) {
                          const mvpNameLower = mvpData.name.toLowerCase();
                          const matchesSearch = searchTerm === '' || mvpNameLower.includes(searchTerm);
-                         // Use currentFilterState to check visibility
-                         const isChecked = currentFilterState[mvpData.id] !== undefined ? currentFilterState[mvpData.id] : true; // Default to true if not found
-                         card.style.display = (matchesSearch && isChecked) ? 'flex' : 'none';
+                         // Use the current checkbox state for immediate feedback
+                         const checkboxElement = document.getElementById('filter-' + mvpData.id);
+                         const isActuallyChecked = checkboxElement ? checkboxElement.checked : true;
+
+                         card.style.display = (matchesSearch && isActuallyChecked) ? 'flex' : 'none';
                      }
                  });
 
                  clearSearchBtn.style.display = searchTerm ? 'block' : 'none';
 
-                 // Trigger timer update to re-sort visible items in Auto Sort version
-                 if (currentMvpData !== null && typeof sortMvpsNow === 'undefined') { // Only auto-sort in v1
-                     updateAllTimers(currentMvpData);
-                 }
+                 // --- NO Auto Sort call in v2 ---
+                 // if (currentMvpData !== null) { updateAllTimers(currentMvpData); }
             }
+            // --- End define applyFilters ---
 
-            // --- 6. Load filters from Firebase on initial load ---
-            filtersRef.once('value').then((snapshot) => {
-                const loadedFilters = snapshot.val();
-                currentFilterState = loadedFilters || {}; // Use loaded data or empty object
-
-                // --- 7. Create checkboxes and set initial state ---
-                filterContainer.innerHTML = ''; // Clear container before adding
-                sortedMvpListForFilter.forEach(mvpData => {
-                    const displayName = mvpData.name;
-                    const filterItem = document.createElement('div');
-                    filterItem.className = 'filter-item';
-                    const input = document.createElement('input');
-                    input.type = 'checkbox';
-                    input.id = 'filter-' + mvpData.id;
-                    input.value = mvpData.id;
-                    // Set checked state based on loaded data (default true)
-                    input.checked = currentFilterState[mvpData.id] !== undefined ? currentFilterState[mvpData.id] : true;
-
-                    const label = document.createElement('label');
-                    label.htmlFor = 'filter-' + mvpData.id;
-                    label.textContent = displayName;
-                    filterItem.appendChild(input);
-                    filterItem.appendChild(label);
-                    filterContainer.appendChild(filterItem);
-                });
-
-                initialFiltersLoaded = true; // --- 8. Set flag after loading ---
-                applyFilters(); // Apply filters initially
-
-            }).catch(error => {
-                console.error("Error loading filters from Firebase:", error);
-                // Handle error: Maybe proceed with default filters
-                 currentFilterState = {}; // Reset state on error
-                 mvpList.forEach(mvp => currentFilterState[mvp.id] = true); // Default all to true
-                 // Re-create checkboxes with default state if needed
-                 filterContainer.innerHTML = ''; // Clear
-                 sortedMvpListForFilter.forEach(mvpData => { /* ... create checkbox with input.checked = true ... */
-                    const displayName = mvpData.name; const filterItem = document.createElement('div'); filterItem.className = 'filter-item'; const input = document.createElement('input'); input.type = 'checkbox'; input.id = 'filter-' + mvpData.id; input.value = mvpData.id; input.checked = true; const label = document.createElement('label'); label.htmlFor = 'filter-' + mvpData.id; label.textContent = displayName; filterItem.appendChild(input); filterItem.appendChild(label); filterContainer.appendChild(filterItem);
-                 });
-                 initialFiltersLoaded = true;
-                 applyFilters();
-            });
-
-
-            // --- 9. Modify Event listener to save on change ---
             filterContainer.addEventListener('change', (event) => {
-                if (event.target.type === 'checkbox') {
-                    // Update currentFilterState immediately for responsiveness
-                    currentFilterState[event.target.value] = event.target.checked;
-                    applyFilters(); // Apply UI changes first
-                    saveFiltersToFirebase(); // Then save to Firebase
-                }
+                if (event.target.type === 'checkbox') { applyFilters(); }
             });
-
-            // Search input and clear button remain the same
             searchInput.addEventListener('input', applyFilters);
-            clearSearchBtn.addEventListener('click', () => {
-                searchInput.value = '';
-                applyFilters();
-            });
+            clearSearchBtn.addEventListener('click', () => { searchInput.value = ''; applyFilters(); });
 
-            // Filter Buttons (Select/Deselect All) - Modify to save state
             const selectAllBtn = document.getElementById('select-all-btn');
             const deselectAllBtn = document.getElementById('deselect-all-btn');
             function setAllCheckboxes(checkedState) {
                 const checkboxes = filterContainer.querySelectorAll('input[type="checkbox"]');
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = checkedState;
-                    currentFilterState[checkbox.value] = checkedState; // Update state directly
-                });
-                applyFilters(); // Apply UI changes
-                saveFiltersToFirebase(); // Save the new bulk state
+                checkboxes.forEach(checkbox => { checkbox.checked = checkedState; });
+                applyFilters(); // Apply and save after bulk change
             }
             if (selectAllBtn) { selectAllBtn.onclick = function() { setAllCheckboxes(true); } }
             if (deselectAllBtn) { deselectAllBtn.onclick = function() { setAllCheckboxes(false); } }
 
-            // applyFilters() called after initial load now
+            // Apply initial filter state based on loaded settings
+            applyFilters();
 
-        } // End if(filterContainer...)
-
-        // --- End Filter Logic ---
+        } // End initializeFiltersAndApply
 
     </script>
 </body>
 </html>
-
-
-}
-
