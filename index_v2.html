@@ -268,10 +268,36 @@
         .filter-item input { margin-right: 8px; accent-color: #3b82f6; }
         .filter-item label { font-size: 0.95em; cursor: pointer; }
         /* --- จบ CSS Filter --- */
+		
+			/* --- ⬇️⬇️ วางโค้ด CSS นาฬิกาตรงนี้ ⬇️⬇️ --- */
+        #live-clock-container {
+            position: absolute;
+            top: 15px; /* ความสูงระดับเดียวกับปุ่มอื่นๆ */
+            left: 50%;
+            transform: translateX(-50%); /* เทคนิคจัดกลางเป๊ะ */
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.3); /* พื้นหลังนิดหน่อย กันจม */
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 1px solid #555; /* ให้เข้ากับธีม */
+        }
+        #live-clock {
+            font-family: "Courier New", Courier, monospace; /* ใช้ฟอนต์เดียวกับ timer */
+            font-size: 1.8em; /* ขนาดเท่าปุ่มอื่น */
+            font-weight: bold;
+            color: #FFFFFF; /* สีขาวตามที่ขอ */
+            user-select: none;
+        }
+        /* --- ⬆️⬆️ จบ CSS นาฬิกา ⬆️⬆️ --- */
 
     </style>
 </head>
 <body>
+
+	<div id="live-clock-container">
+        <span id="live-clock">00:00:00</span>
+    </div>
+
 	<!-- --- Version Toggle Link --- -->
     <div class="top-left-controls">
         <div class="version-toggle-link">
@@ -286,7 +312,7 @@
     </div>
     <audio id="alert-sound" src="mvpalert2.mp3" preload="auto"></audio>
 
-    <h1>Ragnarok MVP Timer (Sync)</h1>
+    <h1>Ragnarok MVP Timer (Custom-Ro ของแวน)</h1>
 
     <!-- --- Add Search Box HTML --- -->
     <div class="search-container">
@@ -1831,6 +1857,45 @@
             applyFilters();
 
         } // End initializeFiltersAndApply
+		
+		
+		// --- ⬇️ 3. โค้ด JavaScript นาฬิกา (Clean) ⬇️ ---
+
+        function updateLiveClock() {
+            try {
+                const clockElement = document.getElementById('live-clock');
+                
+                if (clockElement) {
+                    const now = new Date();
+                    
+                    // ใช้ฟังก์ชัน pad(num) แบบนี้ ปลอดภัย/เข้ากันได้ดีกว่า
+                    function pad(num) {
+                        var s = num.toString();
+                        return (s.length < 2) ? '0' + s : s;
+                    }
+                    
+                    const hh = pad(now.getHours());
+                    const mm = pad(now.getMinutes());
+                    const ss = pad(now.getSeconds());
+                    
+                    clockElement.textContent = hh + ':' + mm + ':' + ss;
+                }
+            } catch (e) {
+                // เก็บไว้แค่ Error เผื่อมันพังจริงๆ ในอนาคต
+                console.error("Clock Error:", e);
+            }
+        }
+        
+        // สั่งให้นาฬิกาทำงานทุก 1 วินาที
+        setInterval(updateLiveClock, 1000);
+        
+        // สั่งให้นาฬิกาทำงานทันที 1 ครั้ง (เมื่อหน้าเว็บโหลดเสร็จ)
+        document.addEventListener('DOMContentLoaded', function() {
+             updateLiveClock();
+        });
+
+        // --- ⬆️ 3. จบโค้ด JavaScript นาฬิกา ⬆️ ---
+		
 
     </script>
 </body>
